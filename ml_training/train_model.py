@@ -30,8 +30,3 @@ print(df["department"].unique())
 
 print("\nUrgency levels:")
 print(df["urgency"].unique())
-
-# Save a copy for further processing
-df.to_csv("../dataset/cleaned_complaints.csv", index=False)
-
-print("Cleaned dataset saved successfully!")
