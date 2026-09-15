@@ -1,0 +1,51 @@
+text,primary_department,secondary_department,complaint_type,language
+"My hostel room fan is not working.",Hostels,None,single,English
+"I cannot access my university email account.",IT Support,None,single,English
+"My semester fee payment was deducted but the portal still shows unpaid.",Fees / Finance,None,single,English
+"The college bus is arriving very late every morning.",Transport,None,single,English
+"There is a water leakage in my hostel bathroom and the washroom needs urgent repair.",Hostels,Maintenance,multi,English
+"मेरे हॉस्टल में पानी की समस्या है और मेरी फीस का भुगतान भी नहीं हो रहा है।",Hostels,Fees / Finance,multi,Hindi
+"Mere hostel room ka fan kharab hai.",Hostels,None,single,Hinglish
+"College Wi-Fi is not working in the computer lab.",IT Support,None,single,Hinglish
+"The bus driver was rude and the bus is also regularly arriving late.",Transport,Security / Discipline,multi,English
+"I want to organize a photography club event but I do not know which department handles student clubs.",Unknown,None,unknown,English
+"Wi-Fi is not working in the library.",IT Support,None,single,English
+"The online attendance portal is not opening.",IT Support,None,single,English
+"My course registration page shows an error.",IT Support,None,single,English
+"I cannot reset my university password.",IT Support,None,single,English
+"The computer lab system is not connecting to the internet.",IT Support,None,single,English
+"The updated syllabus has not been provided for my course.",Academics,None,single,English
+"I have not received feedback for my assignment.",Academics,None,single,English
+"The classroom timetable has conflicting lecture timings.",Academics,None,single,English
+"My internal marks are not visible on the student portal.",Academics,None,single,English
+"I need clarification about my course examination schedule.",Academics,None,single,English
+"My hostel bed is damaged.",Hostels,None,single,English
+"The hostel room light is not working.",Hostels,None,single,English
+"I have not received my hostel room allocation.",Hostels,None,single,English
+"The hostel mess menu is not being followed.",Hostels,None,single,English
+"The hostel water supply is unavailable.",Hostels,None,single,English
+"There is a broken window in my classroom.",Maintenance,None,single,English
+"The ceiling fan in the lecture hall is damaged.",Maintenance,None,single,English
+"There is water leakage in the academic building.",Maintenance,None,single,English
+"The campus lift is not working.",Maintenance,None,single,English
+"The washroom plumbing needs repair.",Maintenance,None,single,English
+"My tuition fee payment has failed.",Fees / Finance,None,single,English
+"I was charged an incorrect examination fee.",Fees / Finance,None,single,English
+"My fee refund has not been processed.",Fees / Finance,None,single,English
+"The scholarship amount is not reflected in my account.",Fees / Finance,None,single,English
+"I need help with my semester fee receipt.",Fees / Finance,None,single,English
+"The college bus did not stop at my designated location.",Transport,None,single,English
+"My bus pass is not being accepted.",Transport,None,single,English
+"The college bus route has changed without notice.",Transport,None,single,English
+"The campus shuttle is overcrowded.",Transport,None,single,English
+"The bus schedule is not displayed correctly.",Transport,None,single,English
+"My student ID card has not been issued.",Administration,None,single,English
+"I need a duplicate copy of my admission document.",Administration,None,single,English
+"My name is incorrect on the university record.",Administration,None,single,English
+"I need an official student certificate.",Administration,None,single,English
+"My academic record has not been updated.",Administration,None,single,English
+"Someone stole my bicycle from the campus parking area.",Security / Discipline,None,single,English
+"A student is repeatedly violating hostel rules.",Security / Discipline,None,single,English
+"There was an unauthorized person inside the campus.",Security / Discipline,None,single,English
+"I want to report harassment by another student.",Security / Discipline,None,single,English
+"The campus parking area has a serious security problem.",Security / Discipline,None,single,English

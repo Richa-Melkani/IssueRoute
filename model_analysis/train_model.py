@@ -22,7 +22,7 @@ from sklearn.metrics import f1_score
 # 1. Load Dataset
 # =========================
 
-data_path = "../dataset/complaints.csv"
+data_path = "dataset/baseline_dataset.csv"
 
 df = pd.read_csv(data_path)
 
