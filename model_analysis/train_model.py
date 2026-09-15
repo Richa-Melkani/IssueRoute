@@ -1,60 +1,54 @@
 import pandas as pd
-
+import numpy as np
+import joblib
+from pathlib import Path
 from sklearn.model_selection import train_test_split
-
 from sklearn.feature_extraction.text import TfidfVectorizer
-
 from sklearn.svm import LinearSVC
+from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import (
+    accuracy_score,
+    f1_score,
+    classification_report,
+    confusion_matrix,
+    hamming_loss
+)
+from sklearn.multiclass import OneVsRestClassifier
+from sklearn.pipeline import Pipeline
 
-from sklearn.metrics import accuracy_score
+# ============================================================
+# PATHS
+# ============================================================
 
-from sklearn.metrics import classification_report
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATASET_DIR = BASE_DIR / "dataset"
+MODEL_DIR = BASE_DIR / "models"
+MODEL_DIR.mkdir(exist_ok=True)
 
-from sklearn.metrics import confusion_matrix
-
-from scipy.sparse import hstack
-
-from sklearn.metrics import f1_score
+BASELINE_PATH = DATASET_DIR / "baseline_dataset.csv"
+RESEARCH_PATH = DATASET_DIR / "research_dataset.csv"
+MODEL_PATH = MODEL_DIR / "issue_route_model.pkl"
 
 
+# ============================================================
+# 1. BASELINE DATASET
+# ============================================================
 
-# =========================
-# 1. Load Dataset
-# =========================
+print("\n" + "=" * 60)
+print("1. BASELINE DATASET")
+print("=" * 60)
 
-data_path = "dataset/baseline_dataset.csv"
-
-df = pd.read_csv(data_path)
+df = pd.read_csv(BASELINE_PATH)
 
 print(df.head())
-
 print("Dataset shape:", df.shape)
-
 print("Columns:", df.columns.tolist())
 
-
-# =========================
-# 2. Separate Input and Target
-# =========================
-
 X = df["text"]
-
 y = df["department"]
 
-print("Input (X):")
-
-print(X.head())
-
-print("Target (y):")
-
-print(y.head())
-
-
-# =========================
-# 3. Train-Test Split
-# =========================
-
-X_train, X_test, y_train, y_test = train_test_split(
+X_train_base, X_test_base, y_train_base, y_test_base = train_test_split(
     X,
     y,
     test_size=0.20,
@@ -62,916 +56,271 @@ X_train, X_test, y_train, y_test = train_test_split(
     stratify=y
 )
 
-print("Training data:", X_train.shape)
-
-print("Testing data:", X_test.shape)
-
-
-# =========================
-# 4. Normal TF-IDF
-# =========================
-
-tfidf = TfidfVectorizer()
-
-X_train_tfidf = tfidf.fit_transform(X_train)
-
-X_test_tfidf = tfidf.transform(X_test)
-
-print("Training TF-IDF shape:", X_train_tfidf.shape)
-
-print("Testing TF-IDF shape:", X_test_tfidf.shape)
+print("Training samples:", len(X_train_base))
+print("Testing samples:", len(X_test_base))
 
 
-# =========================
-# 5. Linear SVM
-# =========================
+# ============================================================
+# 2. BASELINE TF-IDF + LINEAR SVM
+# ============================================================
 
-model = LinearSVC()
+print("\n" + "=" * 60)
+print("2. BASELINE TF-IDF + LINEAR SVM")
+print("=" * 60)
 
-model.fit(X_train_tfidf, y_train)
+tfidf_base = TfidfVectorizer()
 
-y_pred = model.predict(X_test_tfidf)
+X_train_tfidf = tfidf_base.fit_transform(X_train_base)
+X_test_tfidf = tfidf_base.transform(X_test_base)
 
-print("First 10 predictions:")
+print("TF-IDF train shape:", X_train_tfidf.shape)
+print("TF-IDF test shape:", X_test_tfidf.shape)
 
-print(y_pred[:10])
+model_base = LinearSVC()
+model_base.fit(X_train_tfidf, y_train_base)
 
+y_pred_base = model_base.predict(X_test_tfidf)
 
-# =========================
-# 6. Normal TF-IDF Accuracy
-# =========================
+print("Accuracy:", accuracy_score(y_test_base, y_pred_base) * 100)
+print("Macro F1:", f1_score(y_test_base, y_pred_base, average="macro"))
 
-accuracy = accuracy_score(y_test, y_pred)
-
-print("Normal TF-IDF Accuracy:", accuracy)
-
-
-# =========================
-# 7. Normal TF-IDF Classification Report
-# =========================
-
-print(classification_report(y_test, y_pred))
+print(classification_report(y_test_base, y_pred_base, zero_division=0))
 
 
-# =========================
-# 8. Normal TF-IDF Confusion Matrix
-# =========================
+# ============================================================
+# 3. MODEL COMPARISON
+# ============================================================
 
-cm = confusion_matrix(y_test, y_pred)
+print("\n" + "=" * 60)
+print("3. MODEL COMPARISON")
+print("=" * 60)
 
-print("Normal TF-IDF Confusion Matrix:")
+comparison_models = {
+    "Logistic Regression": LogisticRegression(max_iter=2000),
+    "Multinomial Naive Bayes": MultinomialNB(),
+    "Linear SVM": LinearSVC()
+}
 
-print(cm)
+comparison_results = []
+
+for name, clf in comparison_models.items():
+    clf.fit(X_train_tfidf, y_train_base)
+    pred = clf.predict(X_test_tfidf)
+
+    comparison_results.append({
+        "Model": name,
+        "Accuracy": accuracy_score(y_test_base, pred),
+        "Macro F1": f1_score(y_test_base, pred, average="macro")
+    })
+
+print(pd.DataFrame(comparison_results))
 
 
-# ==================================================
-# 9. Bigram TF-IDF
-# ==================================================
+# ============================================================
+# 4. BIGRAM TF-IDF + LINEAR SVM
+# ============================================================
+
+print("\n" + "=" * 60)
+print("4. BIGRAM TF-IDF + LINEAR SVM")
+print("=" * 60)
 
 tfidf_bigram = TfidfVectorizer(ngram_range=(1, 2))
 
-X_train_bigram = tfidf_bigram.fit_transform(X_train)
-
-X_test_bigram = tfidf_bigram.transform(X_test)
-
-print("Bigram Training shape:", X_train_bigram.shape)
-
-print("Bigram Testing shape:", X_test_bigram.shape)
-
-
-# =========================
-# 10. Linear SVM with Bigram
-# =========================
+X_train_bigram = tfidf_bigram.fit_transform(X_train_base)
+X_test_bigram = tfidf_bigram.transform(X_test_base)
 
 model_bigram = LinearSVC()
-
-model_bigram.fit(X_train_bigram, y_train)
+model_bigram.fit(X_train_bigram, y_train_base)
 
 y_pred_bigram = model_bigram.predict(X_test_bigram)
 
-
-# =========================
-# 11. Bigram Accuracy
-# =========================
-
-accuracy_bigram = accuracy_score(y_test, y_pred_bigram)
-
-print("Bigram Accuracy:", accuracy_bigram)
+print("Accuracy:", accuracy_score(y_test_base, y_pred_bigram) * 100)
+print("Macro F1:", f1_score(y_test_base, y_pred_bigram, average="macro"))
 
 
-# =========================
-# 12. Bigram Classification Report
-# =========================
+# ============================================================
+# 5. CHARACTER TF-IDF + LINEAR SVM
+# ============================================================
 
-print(classification_report(y_test, y_pred_bigram))
+print("\n" + "=" * 60)
+print("5. CHARACTER TF-IDF + LINEAR SVM")
+print("=" * 60)
 
-
-# =========================
-# 13. Bigram Confusion Matrix
-# =========================
-
-cm_bigram = confusion_matrix(y_test, y_pred_bigram)
-
-print("Bigram Confusion Matrix:")
-
-print(cm_bigram)
-
-tfidf_char = TfidfVectorizer(
+tfidf_char_base = TfidfVectorizer(
     analyzer="char",
     ngram_range=(3, 5)
 )
 
-X_train_char = tfidf_char.fit_transform(X_train)
-X_test_char = tfidf_char.transform(X_test)
+X_train_char_base = tfidf_char_base.fit_transform(X_train_base)
+X_test_char_base = tfidf_char_base.transform(X_test_base)
 
-print("Character TF-IDF Training shape:", X_train_char.shape)
-print("Character TF-IDF Testing shape:", X_test_char.shape)
+model_char_base = LinearSVC(C=1.0)
+model_char_base.fit(X_train_char_base, y_train_base)
 
-model_char = LinearSVC()
+y_pred_char_base = model_char_base.predict(X_test_char_base)
 
-model_char.fit(X_train_char, y_train)
-
-y_pred_char = model_char.predict(X_test_char)
-
-accuracy_char = accuracy_score(y_test, y_pred_char)
-
-print("Character TF-IDF Accuracy:", accuracy_char)
-
-print(classification_report(y_test, y_pred_char))
+print("Accuracy:", accuracy_score(y_test_base, y_pred_char_base) * 100)
+print("Macro F1:", f1_score(y_test_base, y_pred_char_base, average="macro"))
 
 
-cm_char = confusion_matrix(y_test, y_pred_char)
+# ============================================================
+# 6. BALANCED SVM
+# ============================================================
 
-print("Character TF-IDF Confusion Matrix:")
-print(cm_char)
-
+print("\n" + "=" * 60)
+print("6. BALANCED SVM")
+print("=" * 60)
 
 model_balanced = LinearSVC(class_weight="balanced")
-
-model_balanced.fit(X_train_tfidf, y_train)
+model_balanced.fit(X_train_tfidf, y_train_base)
 
 y_pred_balanced = model_balanced.predict(X_test_tfidf)
 
-accuracy_balanced = accuracy_score(y_test, y_pred_balanced)
+print("Accuracy:", accuracy_score(y_test_base, y_pred_balanced) * 100)
+print("Macro F1:", f1_score(y_test_base, y_pred_balanced, average="macro"))
 
-print("Balanced SVM Accuracy:", accuracy_balanced)
 
-from sklearn.metrics import f1_score
+# ============================================================
+# 7. RESEARCH DATASET
+# ============================================================
 
-macro_f1_balanced = f1_score(y_test, y_pred_balanced, average="macro")
+print("\n" + "=" * 60)
+print("7. RESEARCH DATASET")
+print("=" * 60)
 
-print("Balanced SVM Macro F1:", macro_f1_balanced)
+research_df = pd.read_csv(RESEARCH_PATH)
 
-X_train_combined = hstack([X_train_tfidf, X_train_char])
-X_test_combined = hstack([X_test_tfidf, X_test_char])
+# IMPORTANT:
+# Remove exact duplicate rows BEFORE any research experiment.
+# This prevents duplicate records from affecting train/test results.
+before_duplicates = len(research_df)
 
-print("Combined Training shape:", X_train_combined.shape)
-print("Combined Testing shape:", X_test_combined.shape)
+research_df = research_df.drop_duplicates(
+    subset=["text", "primary_department", "secondary_department",
+            "complaint_type", "language"]
+).reset_index(drop=True)
 
+removed_duplicates = before_duplicates - len(research_df)
 
-model_combined = LinearSVC()
-
-model_combined.fit(X_train_combined, y_train)
-
-y_pred_combined = model_combined.predict(X_test_combined)
-
-accuracy_combined = accuracy_score(y_test, y_pred_combined)
-
-print("Combined TF-IDF Accuracy:", accuracy_combined)
-
-
-
-macro_f1_combined = f1_score(
-    y_test,
-    y_pred_combined,
-    average="macro"
-)
-
-print("Combined TF-IDF Macro F1:", macro_f1_combined)
-
-
-model_char_c05 = LinearSVC(C=0.5)
-
-model_char_c05.fit(X_train_char, y_train)
-
-y_pred_char_c05 = model_char_c05.predict(X_test_char)
-
-accuracy_char_c05 = accuracy_score(y_test, y_pred_char_c05)
-
-print("Character TF-IDF + SVM (C=0.5) Accuracy:", accuracy_char_c05)
-
-model_char_c2 = LinearSVC(C=2.0)
-
-model_char_c2.fit(X_train_char, y_train)
-
-y_pred_char_c2 = model_char_c2.predict(X_test_char)
-
-accuracy_char_c2 = accuracy_score(y_test, y_pred_char_c2)
-
-print("Character TF-IDF + SVM (C=2.0) Accuracy:", accuracy_char_c2)
-
-
-model_char_c01 = LinearSVC(C=0.1)
-
-model_char_c01.fit(X_train_char, y_train)
-
-y_pred_char_c01 = model_char_c01.predict(X_test_char)
-
-accuracy_char_c01 = accuracy_score(y_test, y_pred_char_c01)
-
-print("Character TF-IDF + SVM (C=0.1) Accuracy:", accuracy_char_c01)
-
-results = pd.DataFrame({
-    "Actual": y_test.values,
-    "Predicted": y_pred_char
-})
-
-wrong_predictions = results[
-    results["Actual"] != results["Predicted"]
-]
-
-print("Total wrong predictions:", len(wrong_predictions))
-print(wrong_predictions.head(20))
-
-wrong_indices = y_test.index[y_test != y_pred_char]
-
-wrong_details = df.loc[wrong_indices, ["text", "department"]].copy()
-wrong_details["Predicted"] = y_pred_char[
-    [list(y_test.index).index(i) for i in wrong_indices]
-]
-
-print(wrong_details.head(20).to_string(index=False))
-
-error_pairs = (
-    wrong_predictions
-    .groupby(["Actual", "Predicted"])
-    .size()
-    .sort_values(ascending=False)
-)
-
-print(error_pairs)
-
-from sklearn.linear_model import LogisticRegression
-
-model_char_lr = LogisticRegression(max_iter=1000)
-
-model_char_lr.fit(X_train_char, y_train)
-
-y_pred_char_lr = model_char_lr.predict(X_test_char)
-
-accuracy_char_lr = accuracy_score(y_test, y_pred_char_lr)
-
-print("Character TF-IDF + Logistic Regression Accuracy:", accuracy_char_lr)
-
-
-macro_f1_char_lr = f1_score(
-    y_test,
-    y_pred_char_lr,
-    average="macro"
-)
-
-print("Character TF-IDF + Logistic Regression Macro F1:", macro_f1_char_lr)
-
-
-from sklearn.naive_bayes import MultinomialNB
-
-model_char_nb = MultinomialNB()
-
-model_char_nb.fit(X_train_char, y_train)
-
-y_pred_char_nb = model_char_nb.predict(X_test_char)
-
-accuracy_char_nb = accuracy_score(y_test, y_pred_char_nb)
-
-print("Character TF-IDF + Naive Bayes Accuracy:", accuracy_char_nb)
-
-macro_f1_char_nb = f1_score(
-    y_test,
-    y_pred_char_nb,
-    average="macro"
-)
-
-print("Character TF-IDF + Naive Bayes Macro F1:", macro_f1_char_nb)
-
-
-decision_scores = model_char.decision_function(X_test_char)
-
-print("Decision score shape:", decision_scores.shape)
-print("First 5 decision scores:")
-print(decision_scores[:5])
-
-
-
-import numpy as np
-
-sorted_scores = np.sort(decision_scores, axis=1)
-
-margin = sorted_scores[:, -1] - sorted_scores[:, -2]
-
-print("First 10 margins:")
-print(margin[:10])
-
-
-threshold = 0.2
-
-uncertain = margin < threshold
-
-print("Total test complaints:", len(margin))
-print("Sent for human verification:", uncertain.sum())
-print("Verification percentage:", uncertain.mean() * 100)
-
-
-errors = y_test.values != y_pred_char
-
-errors_caught = errors & uncertain
-
-print("Total model errors:", errors.sum())
-print("Errors caught by human verification:", errors_caught.sum())
-print("Percentage of errors caught:", errors_caught.sum() / errors.sum() * 100)
-
-
-threshold = 0.1
-
-uncertain = margin < threshold
-
-errors_caught = errors & uncertain
-
-print("Threshold:", threshold)
-print("Sent for human verification:", uncertain.sum())
-print("Verification percentage:", uncertain.mean() * 100)
-print("Errors caught:", errors_caught.sum())
-print("Percentage of errors caught:", errors_caught.sum() / errors.sum() * 100)
-
-
-threshold = 0.3
-
-uncertain = margin < threshold
-
-errors_caught = errors & uncertain
-
-print("Threshold:", threshold)
-print("Sent for human verification:", uncertain.sum())
-print("Verification percentage:", uncertain.mean() * 100)
-print("Errors caught:", errors_caught.sum())
-print("Percentage of errors caught:", errors_caught.sum() / errors.sum() * 100)
-
-threshold = 0.4
-
-uncertain = margin < threshold
-
-errors_caught = errors & uncertain
-
-print("Threshold:", threshold)
-print("Sent for human verification:", uncertain.sum())
-print("Verification percentage:", uncertain.mean() * 100)
-print("Errors caught:", errors_caught.sum())
-print("Percentage of errors caught:", errors_caught.sum() / errors.sum() * 100)
-
-
-threshold = 0.5
-
-uncertain = margin < threshold
-
-errors_caught = errors & uncertain
-
-print("Threshold:", threshold)
-print("Sent for human verification:", uncertain.sum())
-print("Verification percentage:", uncertain.mean() * 100)
-print("Errors caught:", errors_caught.sum())
-print("Percentage of errors caught:", errors_caught.sum() / errors.sum() * 100)
-
-
-
-corrected_predictions = y_pred_char.copy()
-
-corrected_predictions[errors_caught] = y_test.values[errors_caught]
-
-corrected_accuracy = accuracy_score(
-    y_test,
-    corrected_predictions
-)
-
-print("Simulated corrected accuracy:", corrected_accuracy)
-print("Simulated corrected accuracy (%):", corrected_accuracy * 100)
-
-simulated_macro_f1 = f1_score(
-    y_test,
-    corrected_predictions,
-    average="macro"
-)
-
-print("Simulated corrected Macro F1:", simulated_macro_f1)
-
-
-
-
-
-new_complaints = [
-    "My hostel room fan is not working.",
-    "I cannot access my university email account.",
-    "I have a problem with my semester fee payment.",
-    "The college bus is arriving very late."
-]
-
-new_complaints_tfidf = tfidf_char.transform(new_complaints)
-
-new_predictions = model_char.predict(new_complaints_tfidf)
-
-for complaint, prediction in zip(new_complaints, new_predictions):
-    print("Complaint:", complaint)
-    print("Predicted Department:", prediction)
-    print()
-
-
-
-from sklearn.metrics import classification_report
-
-print(classification_report(y_test, y_pred_char))
-
-
-
-from sklearn.pipeline import Pipeline
-import joblib
-
-final_model = Pipeline([
-    ("tfidf", TfidfVectorizer(
-        analyzer="char",
-        ngram_range=(3, 5)
-    )),
-    ("svm", LinearSVC(C=1.0))
-])
-
-final_model.fit(X_train, y_train)
-
-joblib.dump(final_model, "issue_route_model.pkl")
-joblib.dump(final_model, "../model/issue_route_model.pkl")
-
-print("Final model saved successfully!")
-
-
-
-
-
-
-# =========================
-# Research Dataset
-# =========================
-
-research_data_path = "../dataset/research_dataset.csv"
-
-research_df = pd.read_csv(research_data_path)
-
-print("\nResearch Dataset:")
-print(research_df.head())
-
-print("Research Dataset shape:", research_df.shape)
-print("Research Dataset columns:", research_df.columns.tolist())
-
+print("Rows before duplicate removal:", before_duplicates)
+print("Duplicate rows removed:", removed_duplicates)
+print("Rows after duplicate removal:", len(research_df))
 print("Shape:", research_df.shape)
+
 print("\nComplaint types:")
 print(research_df["complaint_type"].value_counts())
 
 print("\nLanguages:")
 print(research_df["language"].value_counts())
 
-research_df = pd.read_csv("research_dataset.csv")
-
-print("Shape:", research_df.shape)
-
-print("\nComplaint Types:")
-print(research_df["complaint_type"].value_counts())
-
-print("\nLanguages:")
-print(research_df["language"].value_counts())
-
-print("\nPrimary Departments:")
+print("\nPrimary departments:")
 print(research_df["primary_department"].value_counts())
 
-print("\nSecondary Departments:")
-print(research_df["secondary_department"].value_counts())
-
-print("\nMissing Values:")
-print(research_df.isnull().sum())
-
-print("\nDuplicate Rows:", research_df.duplicated().sum())
-
-research_df = research_df.drop_duplicates()
-
-print("Shape after removing duplicate:", research_df.shape)
-print("Duplicate Rows:", research_df.duplicated().sum())
+print("\nDuplicate rows after cleaning:",
+      research_df.duplicated(
+          subset=["text", "primary_department", "secondary_department",
+                  "complaint_type", "language"]
+      ).sum())
 
 
+# ============================================================
+# COMMON RESEARCH SPLIT
+# ============================================================
+
+X_research = research_df["text"]
 
 
-research_df = research_df.drop_duplicates()
+# ============================================================
+# 8. EXPERIMENT 1 - COMPLAINT TYPE
+# ============================================================
 
-research_df.to_csv(
-    "../dataset/research_dataset.csv",
-    index=False
-)
+print("\n" + "=" * 60)
+print("8. EXPERIMENT 1 - COMPLAINT TYPE")
+print("=" * 60)
 
-print("Dataset saved successfully!")
-print("Shape:", research_df.shape)
+y_type = research_df["complaint_type"]
 
-
-print("Shape:", research_df.shape)
-
-print("\nComplaint Types:")
-print(research_df["complaint_type"].value_counts())
-
-print("\nLanguages:")
-print(research_df["language"].value_counts())
-
-print("\nPrimary Departments:")
-print(research_df["primary_department"].value_counts())
-
-print("\nDuplicate Rows:", research_df.duplicated().sum())
-
-
-
-X = research_df["text"]
-y = research_df["complaint_type"]
-
-print("Input (X):")
-print(X.head())
-
-print("\nTarget (y):")
-print(y.head())
-
-from sklearn.model_selection import train_test_split
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X,
-    y,
+X_train_type, X_test_type, y_train_type, y_test_type = train_test_split(
+    X_research,
+    y_type,
     test_size=0.20,
     random_state=42,
-    stratify=y
+    stratify=y_type
 )
 
-print("Training data:", X_train.shape)
-print("Testing data:", X_test.shape)
+tfidf_type = TfidfVectorizer()
+
+X_train_type_tfidf = tfidf_type.fit_transform(X_train_type)
+X_test_type_tfidf = tfidf_type.transform(X_test_type)
+
+model_type = LinearSVC()
+model_type.fit(X_train_type_tfidf, y_train_type)
+
+y_pred_type = model_type.predict(X_test_type_tfidf)
+
+print("Accuracy:", accuracy_score(y_test_type, y_pred_type) * 100)
+print("Macro F1:", f1_score(y_test_type, y_pred_type, average="macro"))
+print(classification_report(y_test_type, y_pred_type, zero_division=0))
+
+print("Confusion matrix:")
+print(confusion_matrix(y_test_type, y_pred_type))
 
 
-from sklearn.feature_extraction.text import TfidfVectorizer
+# ============================================================
+# 9. EXPERIMENT 2 - MULTI VS NOT-MULTI
+# ============================================================
 
-tfidf = TfidfVectorizer()
+print("\n" + "=" * 60)
+print("9. EXPERIMENT 2 - MULTI VS NOT-MULTI")
+print("=" * 60)
 
-X_train_tfidf = tfidf.fit_transform(X_train)
-X_test_tfidf = tfidf.transform(X_test)
-
-print("Training TF-IDF shape:", X_train_tfidf.shape)
-print("Testing TF-IDF shape:", X_test_tfidf.shape)
-
-
-from sklearn.svm import LinearSVC
-
-model = LinearSVC()
-
-model.fit(X_train_tfidf, y_train)
-
-y_pred = model.predict(X_test_tfidf)
-
-print("Predictions:")
-print(y_pred[:10])
-
-from sklearn.metrics import accuracy_score
-
-accuracy = accuracy_score(y_test, y_pred)
-
-print("Accuracy:", accuracy)
-print("Accuracy (%):", accuracy * 100)
-
-from sklearn.metrics import f1_score
-
-macro_f1 = f1_score(y_test, y_pred, average="macro")
-
-print("Macro F1:", macro_f1)
-
-
-from sklearn.metrics import classification_report
-
-print(classification_report(y_test, y_pred))
-
-
-from sklearn.metrics import confusion_matrix
-
-cm = confusion_matrix(y_test, y_pred)
-
-print(cm)
-
-
-y_multi = research_df["complaint_type"].apply(
+y_binary = research_df["complaint_type"].apply(
     lambda x: "multi" if x == "multi" else "not_multi"
 )
 
-print(y_multi.value_counts())
-
-
-
-
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X,
-    y_multi,
+X_train_binary, X_test_binary, y_train_binary, y_test_binary = train_test_split(
+    X_research,
+    y_binary,
     test_size=0.20,
     random_state=42,
-    stratify=y_multi
+    stratify=y_binary
 )
 
-print("Training data:", X_train.shape)
-print("Testing data:", X_test.shape)
+tfidf_binary = TfidfVectorizer()
 
+X_train_binary_tfidf = tfidf_binary.fit_transform(X_train_binary)
+X_test_binary_tfidf = tfidf_binary.transform(X_test_binary)
 
+model_binary = LinearSVC()
+model_binary.fit(X_train_binary_tfidf, y_train_binary)
 
+y_pred_binary = model_binary.predict(X_test_binary_tfidf)
 
-tfidf_multi = TfidfVectorizer()
+print("Accuracy:", accuracy_score(y_test_binary, y_pred_binary) * 100)
+print("Macro F1:", f1_score(y_test_binary, y_pred_binary, average="macro"))
+print(classification_report(y_test_binary, y_pred_binary, zero_division=0))
 
-X_train_multi_tfidf = tfidf_multi.fit_transform(X_train)
-X_test_multi_tfidf = tfidf_multi.transform(X_test)
+print("Confusion matrix:")
+print(confusion_matrix(y_test_binary, y_pred_binary))
 
-print("Training TF-IDF shape:", X_train_multi_tfidf.shape)
-print("Testing TF-IDF shape:", X_test_multi_tfidf.shape)
 
+# ============================================================
+# 10. EXPERIMENT 3 - PRIMARY DEPARTMENT CLASSIFICATION
+# ============================================================
 
-model_multi = LinearSVC()
+print("\n" + "=" * 60)
+print("10. EXPERIMENT 3 - PRIMARY DEPARTMENT CLASSIFICATION")
+print("=" * 60)
 
-model_multi.fit(X_train_multi_tfidf, y_train)
-
-y_pred_multi = model_multi.predict(X_test_multi_tfidf)
-
-print("Predictions:")
-print(y_pred_multi[:10])
-
-accuracy_multi = accuracy_score(y_test, y_pred_multi)
-
-print("Accuracy:", accuracy_multi)
-print("Accuracy (%):", accuracy_multi * 100)
-
-
-
-macro_f1_multi = f1_score(
-    y_test,
-    y_pred_multi,
-    average="macro"
-)
-
-print("Macro F1:", macro_f1_multi)
-
-print(classification_report(y_test, y_pred_multi))
-
-cm_multi = confusion_matrix(y_test, y_pred_multi)
-
-print(cm_multi)
-
-
-X = research_df["text"]
-y_department = research_df["primary_department"]
-
-print(y_department.value_counts())
-
-
-
-
-
-
-from sklearn.model_selection import train_test_split
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X,
-    y_department,
-    test_size=0.20,
-    random_state=42,
-    stratify=y_department
-)
-
-print("Training samples:", len(X_train))
-print("Testing samples:", len(X_test))
-
-
-
-from sklearn.feature_extraction.text import TfidfVectorizer
-
-tfidf_department = TfidfVectorizer()
-
-X_train_department_tfidf = tfidf_department.fit_transform(X_train)
-X_test_department_tfidf = tfidf_department.transform(X_test)
-
-print("Training TF-IDF shape:", X_train_department_tfidf.shape)
-print("Testing TF-IDF shape:", X_test_department_tfidf.shape)
-
-
-from sklearn.svm import LinearSVC
-
-model_department = LinearSVC()
-
-model_department.fit(
-    X_train_department_tfidf,
-    y_train
-)
-
-y_pred_department = model_department.predict(
-    X_test_department_tfidf
-)
-
-print(y_pred_department[:10])
-
-
-from sklearn.metrics import accuracy_score
-
-accuracy_department = accuracy_score(
-    y_test,
-    y_pred_department
-)
-
-print("Accuracy:", accuracy_department)
-
-
-from sklearn.metrics import f1_score
-
-macro_f1_department = f1_score(
-    y_test,
-    y_pred_department,
-    average="macro"
-)
-
-print("Macro F1:", macro_f1_department)
-
-
-from sklearn.metrics import classification_report
-
-print(classification_report(
-    y_test,
-    y_pred_department
-))
-
-
-
-cm_department = confusion_matrix(
-    y_test,
-    y_pred_department
-)
-
-print(cm_department)
-
-
-errors = pd.DataFrame({
-    "Complaint": X_test,
-    "Actual": y_test,
-    "Predicted": y_pred_department
-})
-
-errors = errors[errors["Actual"] != errors["Predicted"]]
-
-print(errors.to_string(index=False))
-
-
-error_pairs = errors.groupby(
-    ["Actual", "Predicted"]
-).size().sort_values(ascending=False)
-
-print(error_pairs)
-
-
-y_unknown = research_df["primary_department"].apply(
-    lambda x: "unknown" if x == "Unknown" else "known"
-)
-
-print(y_unknown.value_counts())
-
-
-
-X = research_df["text"]
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X,
-    y_unknown,
-    test_size=0.20,
-    random_state=42,
-    stratify=y_unknown
-)
-
-print("Training samples:", len(X_train))
-print("Testing samples:", len(X_test))
-
-
-
-from sklearn.feature_extraction.text import TfidfVectorizer
-
-tfidf_unknown = TfidfVectorizer()
-
-X_train_unknown_tfidf = tfidf_unknown.fit_transform(X_train)
-X_test_unknown_tfidf = tfidf_unknown.transform(X_test)
-
-print("Training TF-IDF shape:", X_train_unknown_tfidf.shape)
-print("Testing TF-IDF shape:", X_test_unknown_tfidf.shape)
-
-
-
-from sklearn.svm import LinearSVC
-
-model_unknown = LinearSVC()
-
-model_unknown.fit(
-    X_train_unknown_tfidf,
-    y_train
-)
-
-y_pred_unknown = model_unknown.predict(
-    X_test_unknown_tfidf
-)
-
-print(y_pred_unknown[:10])
-
-
-from sklearn.metrics import accuracy_score
-
-accuracy_unknown = accuracy_score(
-    y_test,
-    y_pred_unknown
-)
-
-print("Accuracy:", accuracy_unknown)
-
-
-from sklearn.metrics import f1_score
-
-macro_f1_unknown = f1_score(
-    y_test,
-    y_pred_unknown,
-    average="macro"
-)
-
-print("Macro F1:", macro_f1_unknown)
-
-
-
-from sklearn.metrics import classification_report
-
-print(classification_report(
-    y_test,
-    y_pred_unknown
-))
-
-
-
-from sklearn.metrics import confusion_matrix
-
-cm_unknown = confusion_matrix(
-    y_test,
-    y_pred_unknown
-)
-
-print(cm_unknown)
-
-
-
-error_mask_unknown = y_test != y_pred_unknown
-
-errors_unknown = pd.DataFrame({
-    "Complaint": X_test[error_mask_unknown],
-    "Actual": y_test[error_mask_unknown],
-    "Predicted": y_pred_unknown[error_mask_unknown]
-})
-
-print(errors_unknown.to_string(index=False))
-
-
-print(research_df["language"].value_counts())
-
-
-results = pd.DataFrame({
-    "text": X_test,
-    "actual": y_test,
-    "predicted": y_pred_department,
-    "language": research_df.loc[X_test.index, "language"]
-})
-
-print(results["language"].value_counts())
-
-for lang in ["English", "Hindi", "Hinglish"]:
-    lang_data = results[results["language"] == lang]
-
-    accuracy = (lang_data["actual"] == lang_data["predicted"]).mean()
-
-    print(lang, "Accuracy:", accuracy)
-
-
-
-X = research_df["text"]
 y_department = research_df["primary_department"]
 
 X_train_dept, X_test_dept, y_train_dept, y_test_dept = train_test_split(
-    X,
+    X_research,
     y_department,
     test_size=0.20,
     random_state=42,
     stratify=y_department
 )
-
-print("Training samples:", len(X_train_dept))
-print("Testing samples:", len(X_test_dept))
-
-
 
 tfidf_dept = TfidfVectorizer()
 
@@ -979,238 +328,286 @@ X_train_dept_tfidf = tfidf_dept.fit_transform(X_train_dept)
 X_test_dept_tfidf = tfidf_dept.transform(X_test_dept)
 
 model_dept = LinearSVC()
-
-model_dept.fit(
-    X_train_dept_tfidf,
-    y_train_dept
-)
+model_dept.fit(X_train_dept_tfidf, y_train_dept)
 
 y_pred_dept = model_dept.predict(X_test_dept_tfidf)
 
-print(y_pred_dept[:10])
+dept_accuracy = accuracy_score(y_test_dept, y_pred_dept)
+dept_macro_f1 = f1_score(
+    y_test_dept,
+    y_pred_dept,
+    average="macro"
+)
+
+print("Accuracy:", dept_accuracy * 100)
+print("Macro F1:", dept_macro_f1)
+
+print(classification_report(
+    y_test_dept,
+    y_pred_dept,
+    zero_division=0
+))
+
+print("Confusion matrix:")
+print(confusion_matrix(y_test_dept, y_pred_dept))
 
 
+# ============================================================
+# 11. EXPERIMENT 4 - UNKNOWN VS KNOWN
+# ============================================================
+
+print("\n" + "=" * 60)
+print("11. EXPERIMENT 4 - UNKNOWN VS KNOWN")
+print("=" * 60)
+
+y_unknown = research_df["primary_department"].apply(
+    lambda x: "unknown" if x == "Unknown" else "known"
+)
+
+X_train_unknown, X_test_unknown, y_train_unknown, y_test_unknown = train_test_split(
+    X_research,
+    y_unknown,
+    test_size=0.20,
+    random_state=42,
+    stratify=y_unknown
+)
+
+tfidf_unknown = TfidfVectorizer()
+
+X_train_unknown_tfidf = tfidf_unknown.fit_transform(X_train_unknown)
+X_test_unknown_tfidf = tfidf_unknown.transform(X_test_unknown)
+
+model_unknown = LinearSVC()
+model_unknown.fit(X_train_unknown_tfidf, y_train_unknown)
+
+y_pred_unknown = model_unknown.predict(X_test_unknown_tfidf)
+
+print("Accuracy:", accuracy_score(y_test_unknown, y_pred_unknown) * 100)
+print("Macro F1:", f1_score(
+    y_test_unknown,
+    y_pred_unknown,
+    average="macro"
+))
+
+print(classification_report(
+    y_test_unknown,
+    y_pred_unknown,
+    zero_division=0
+))
+
+print("Confusion matrix:")
+print(confusion_matrix(y_test_unknown, y_pred_unknown))
 
 
-results = pd.DataFrame({
-    "actual": y_test_dept,
+# ============================================================
+# 12. EXPERIMENT 5 - LANGUAGE-WISE DEPARTMENT PERFORMANCE
+# ============================================================
+
+print("\n" + "=" * 60)
+print("12. EXPERIMENT 5 - LANGUAGE-WISE DEPARTMENT PERFORMANCE")
+print("=" * 60)
+
+language_results = []
+
+for language in ["English", "Hindi", "Hinglish"]:
+    mask = X_test_dept.index.isin(
+        research_df.index[research_df["language"] == language]
+    )
+
+    language_true = y_test_dept[mask]
+    language_pred = pd.Series(
+        y_pred_dept,
+        index=y_test_dept.index
+    )[mask]
+
+    if len(language_true) > 0:
+        language_results.append({
+            "Language": language,
+            "Accuracy": accuracy_score(
+                language_true,
+                language_pred
+            ),
+            "Samples": len(language_true)
+        })
+
+language_results_df = pd.DataFrame(language_results)
+
+print(language_results_df)
+
+error_mask = y_test_dept.values != y_pred_dept
+
+language_error_df = pd.DataFrame({
+    "text": X_test_dept.values,
+    "actual": y_test_dept.values,
     "predicted": y_pred_dept,
-    "language": research_df.loc[X_test_dept.index, "language"]
+    "language": research_df.loc[
+        X_test_dept.index, "language"
+    ].values
 })
 
-for lang in ["English", "Hindi", "Hinglish"]:
-    lang_data = results[results["language"] == lang]
-
-    accuracy = (lang_data["actual"] == lang_data["predicted"]).mean()
-
-    print(lang, "Accuracy:", accuracy)
-
-
-
-results = pd.DataFrame({
-    "actual": y_test_dept,
-    "predicted": y_pred_dept,
-    "language": research_df.loc[X_test_dept.index, "language"]
-})
-
-for lang in ["English", "Hindi", "Hinglish"]:
-    lang_data = results[results["language"] == lang]
-
-    accuracy = (lang_data["actual"] == lang_data["predicted"]).mean()
-
-    print(lang, "Accuracy:", accuracy)
+print("\nLanguage-wise errors:")
+print(
+    language_error_df[
+        language_error_df["actual"] !=
+        language_error_df["predicted"]
+    ][["text", "actual", "predicted", "language"]]
+)
 
 
-    errors = results[results["actual"] != results["predicted"]]
+# ============================================================
+# 13. EXPERIMENT 6 - SECONDARY DEPARTMENT CLASSIFICATION
+# ============================================================
 
-print(errors.to_string(index=False))
-
-
+print("\n" + "=" * 60)
+print("13. EXPERIMENT 6 - SECONDARY DEPARTMENT CLASSIFICATION")
+print("=" * 60)
 
 multi_df = research_df[
     research_df["complaint_type"] == "multi"
-]
+].copy()
 
-print("Multi-issue complaints:", len(multi_df))
-print(multi_df[[
-    "text",
-    "primary_department",
-    "secondary_department"
-]].head(10))
-
-X_multi = multi_df["text"]
+X_secondary = multi_df["text"]
 y_secondary = multi_df["secondary_department"]
 
-print(y_secondary.value_counts())
-
-
-X_train_sec, X_test_sec, y_train_sec, y_test_sec = train_test_split(
-    X_multi,
+X_train_secondary, X_test_secondary, y_train_secondary, y_test_secondary = train_test_split(
+    X_secondary,
     y_secondary,
     test_size=0.20,
     random_state=42,
     stratify=y_secondary
 )
 
-print("Training samples:", len(X_train_sec))
-print("Testing samples:", len(X_test_sec))
-
-
-
 tfidf_secondary = TfidfVectorizer()
 
-X_train_sec_tfidf = tfidf_secondary.fit_transform(X_train_sec)
-X_test_sec_tfidf = tfidf_secondary.transform(X_test_sec)
+X_train_secondary_tfidf = tfidf_secondary.fit_transform(
+    X_train_secondary
+)
 
-print("Training TF-IDF shape:", X_train_sec_tfidf.shape)
-print("Testing TF-IDF shape:", X_test_sec_tfidf.shape)
-
+X_test_secondary_tfidf = tfidf_secondary.transform(
+    X_test_secondary
+)
 
 model_secondary = LinearSVC()
-
 model_secondary.fit(
-    X_train_sec_tfidf,
-    y_train_sec
+    X_train_secondary_tfidf,
+    y_train_secondary
 )
 
 y_pred_secondary = model_secondary.predict(
-    X_test_sec_tfidf
+    X_test_secondary_tfidf
 )
 
-print(y_pred_secondary)
+print("Accuracy:",
+      accuracy_score(
+          y_test_secondary,
+          y_pred_secondary
+      ) * 100)
 
-
-
-from sklearn.metrics import accuracy_score
-
-accuracy_secondary = accuracy_score(
-    y_test_sec,
-    y_pred_secondary
-)
-
-print("Secondary Department Accuracy:", accuracy_secondary)
-
-from sklearn.metrics import f1_score
-
-macro_f1_secondary = f1_score(
-    y_test_sec,
-    y_pred_secondary,
-    average="macro"
-)
-
-print("Secondary Department Macro F1:", macro_f1_secondary)
-
-
-from sklearn.metrics import classification_report
+print("Macro F1:",
+      f1_score(
+          y_test_secondary,
+          y_pred_secondary,
+          average="macro"
+      ))
 
 print(classification_report(
-    y_test_sec,
-    y_pred_secondary
+    y_test_secondary,
+    y_pred_secondary,
+    zero_division=0
 ))
 
-
-
-from sklearn.metrics import confusion_matrix
-
-cm_secondary = confusion_matrix(
-    y_test_sec,
-    y_pred_secondary
+print("Confusion matrix:")
+print(
+    confusion_matrix(
+        y_test_secondary,
+        y_pred_secondary
+    )
 )
 
-print(cm_secondary)
-print("Class order:")
-print(model_secondary.classes_)
 
+# ============================================================
+# 14. EXPERIMENT 7 - UNCERTAINTY-AWARE ROUTING
+# ============================================================
 
+print("\n" + "=" * 60)
+print("14. EXPERIMENT 7 - UNCERTAINTY-AWARE ROUTING")
+print("=" * 60)
 
-results_secondary = pd.DataFrame({
-    "Complaint": X_test_sec.values,
-    "Actual Secondary": y_test_sec.values,
-    "Predicted Secondary": y_pred_secondary
-})
+decision_scores = model_dept.decision_function(
+    X_test_dept_tfidf
+)
 
-errors_secondary = results_secondary[
-    results_secondary["Actual Secondary"] != results_secondary["Predicted Secondary"]
-]
+sorted_scores = np.sort(
+    decision_scores,
+    axis=1
+)
 
-print(errors_secondary.to_string(index=False))
-
-
-decision_scores = model_dept.decision_function(X_test_dept_tfidf)
+margin = (
+    sorted_scores[:, -1] -
+    sorted_scores[:, -2]
+)
 
 print("Decision score shape:", decision_scores.shape)
-
-
-import numpy as np
-
-sorted_scores = np.sort(decision_scores, axis=1)
-
-margin = sorted_scores[:, -1] - sorted_scores[:, -2]
-
 print("Margin shape:", margin.shape)
-print("First 10 margins:", margin[:10])
-
-
 print("Minimum margin:", margin.min())
 print("Maximum margin:", margin.max())
 print("Average margin:", margin.mean())
-
 
 threshold = 0.3
 
 review_mask = margin < threshold
 
-print("Threshold:", threshold)
-print("Complaints sent for human verification:", review_mask.sum())
-print("Percentage sent for review:", review_mask.mean() * 100)
+reviewed = review_mask.sum()
+total_errors = (y_test_dept.values != y_pred_dept).sum()
 
-
-
-errors = y_pred_dept != y_test_dept
-
-total_errors = errors.sum()
-errors_caught = (errors & review_mask).sum()
-
-print("Total model errors:", total_errors)
-print("Errors caught by human verification:", errors_caught)
-print("Error detection rate:", (errors_caught / total_errors) * 100)
-
-
-
-
-corrected_predictions = y_pred_dept.copy()
-
-corrected_predictions[review_mask] = y_test_dept.values[review_mask]
-
-corrected_accuracy = accuracy_score(
-    y_test_dept,
-    corrected_predictions
+error_mask_dept = (
+    y_test_dept.values != y_pred_dept
 )
 
-print("Accuracy after simulated human verification:", corrected_accuracy)
+errors_caught = (
+    review_mask & error_mask_dept
+).sum()
 
+simulated_correct = (
+    (~review_mask & ~error_mask_dept).sum()
+    + review_mask.sum()
+)
 
+simulated_accuracy = (
+    simulated_correct /
+    len(y_test_dept)
+)
 
+simulated_true = y_test_dept.copy()
+simulated_pred = y_pred_dept.copy()
 
-print("Total test complaints:", len(y_test_dept))
-print("Complaints sent for review:", review_mask.sum())
-print("Automatic routing:", (~review_mask).sum())
-print("Review percentage:", (review_mask.mean() * 100))
+simulated_pred[review_mask] = (
+    simulated_true.values[review_mask]
+)
 
-macro_f1_corrected = f1_score(
-    y_test_dept,
-    corrected_predictions,
+simulated_macro_f1 = f1_score(
+    simulated_true,
+    simulated_pred,
     average="macro"
 )
 
-print("Macro F1 after simulated human verification:", macro_f1_corrected)
+print("Threshold:", threshold)
+print("Reviewed:", reviewed, "/", len(y_test_dept))
+print("Errors caught:", errors_caught, "/", total_errors)
+print(
+    "Simulated accuracy after perfect human correction:",
+    simulated_accuracy * 100
+)
+print("Simulated Macro F1:", simulated_macro_f1)
 
 
+# ============================================================
+# 15. EXPERIMENT 8 - CHARACTER TF-IDF ABLATION
+# ============================================================
 
-
-
-
-from sklearn.feature_extraction.text import TfidfVectorizer
+print("\n" + "=" * 60)
+print("15. EXPERIMENT 8 - CHARACTER TF-IDF ABLATION")
+print("=" * 60)
 
 tfidf_char = TfidfVectorizer(
     analyzer="char",
@@ -1220,16 +617,7 @@ tfidf_char = TfidfVectorizer(
 X_train_char = tfidf_char.fit_transform(X_train_dept)
 X_test_char = tfidf_char.transform(X_test_dept)
 
-print("Training Character TF-IDF shape:", X_train_char.shape)
-print("Testing Character TF-IDF shape:", X_test_char.shape)
-
-
-
-
-
-from sklearn.svm import LinearSVC
-
-model_char = LinearSVC()
+model_char = LinearSVC(C=1.0)
 
 model_char.fit(
     X_train_char,
@@ -1240,347 +628,259 @@ y_pred_char = model_char.predict(
     X_test_char
 )
 
-print(y_pred_char[:10])
+print("Accuracy:",
+      accuracy_score(
+          y_test_dept,
+          y_pred_char
+      ) * 100)
 
+print("Macro F1:",
+      f1_score(
+          y_test_dept,
+          y_pred_char,
+          average="macro"
+      ))
 
-
-from sklearn.metrics import accuracy_score
-
-accuracy_char = accuracy_score(
-    y_test_dept,
-    y_pred_char
-)
-
-print("Character TF-IDF Accuracy:", accuracy_char)
-
-
-
-from sklearn.metrics import f1_score
-
-macro_f1_char = f1_score(
+print(classification_report(
     y_test_dept,
     y_pred_char,
-    average="macro"
-)
+    zero_division=0
+))
 
-print("Character TF-IDF Macro F1:", macro_f1_char)
-
-
-
-from sklearn.metrics import classification_report
-
+print("Confusion matrix:")
 print(
-    classification_report(
+    confusion_matrix(
         y_test_dept,
         y_pred_char
     )
 )
 
 
-from sklearn.metrics import confusion_matrix
+# ============================================================
+# 16. EXPERIMENT 9 - THRESHOLD SENSITIVITY
+# ============================================================
 
-cm_char = confusion_matrix(
-    y_test_dept,
-    y_pred_char
-)
-
-print(cm_char)
-print("Class order:")
-print(model_char.classes_)
-
-
-
-errors_char = y_pred_char != y_test_dept
-
-print("Total Character TF-IDF errors:", errors_char.sum())
-
-print("\nCharacter TF-IDF misclassified complaints:")
-print(
-    pd.DataFrame({
-        "Complaint": X_test_dept[errors_char].values,
-        "Actual": y_test_dept[errors_char].values,
-        "Predicted": y_pred_char[errors_char]
-    }).to_string(index=False)
-)
-
-
-
+print("\n" + "=" * 60)
+print("16. EXPERIMENT 9 - THRESHOLD SENSITIVITY")
+print("=" * 60)
 
 thresholds = [0.1, 0.2, 0.3, 0.4, 0.5]
 
-for threshold in thresholds:
-    review_mask_temp = margin < threshold
-    
-    errors_caught_temp = (
-        errors & review_mask_temp
-    ).sum()
-    
-    review_count_temp = review_mask_temp.sum()
-    
-    error_detection_temp = (
-        errors_caught_temp / total_errors
-    ) * 100
-    
-    print(
-        f"Threshold: {threshold} | "
-        f"Review: {review_count_temp} | "
-        f"Error Detection: {error_detection_temp:.2f}%"
+threshold_results = []
+
+for current_threshold in thresholds:
+
+    review_mask_temp = (
+        margin < current_threshold
     )
 
+    simulated_pred_temp = y_pred_dept.copy()
 
-
-
-    for threshold in thresholds:
-    review_mask_temp = margin < threshold
-
-    corrected_temp = y_pred_dept.copy()
-    corrected_temp[review_mask_temp] = y_test_dept.values[review_mask_temp]
-
-    accuracy_temp = accuracy_score(
-        y_test_dept,
-        corrected_temp
+    simulated_pred_temp[review_mask_temp] = (
+        y_test_dept.values[review_mask_temp]
     )
 
-    print(
-        f"Threshold: {threshold} | "
-        f"Simulated Accuracy: {accuracy_temp:.4f}"
-    )
-
-
-
-
-
-
-
-    for threshold in thresholds:
-    review_mask_temp = margin < threshold
-
-    corrected_temp = y_pred_dept.copy()
-    corrected_temp[review_mask_temp] = y_test_dept.values[review_mask_temp]
-
-    macro_f1_temp = f1_score(
-        y_test_dept,
-        corrected_temp,
-        average="macro"
-    )
-
-    print(
-        f"Threshold: {threshold} | "
-        f"Simulated Macro F1: {macro_f1_temp:.4f}"
-    )
-
-
-
-    for threshold in thresholds:
-    review_mask_temp = margin < threshold
-
-    corrected_temp = y_pred_dept.copy()
-    corrected_temp[review_mask_temp] = y_test_dept.values[review_mask_temp]
-
-    accuracy_temp = accuracy_score(
-        y_test_dept,
-        corrected_temp
-    )
-
-    macro_f1_temp = f1_score(
-        y_test_dept,
-        corrected_temp,
-        average="macro"
-    )
-
-    review_percentage_temp = review_mask_temp.mean() * 100
-
-    print(
-        f"Threshold: {threshold} | "
-        f"Review: {review_mask_temp.sum()} "
-        f"({review_percentage_temp:.2f}%) | "
-        f"Accuracy: {accuracy_temp:.4f} | "
-        f"Macro F1: {macro_f1_temp:.4f}"
-    )
-
-
-
-
-    feature_names = tfidf_dept.get_feature_names_out()
-coefficients = model_dept.coef_
-
-print("Number of features:", len(feature_names))
-print("Number of classes:", len(model_dept.classes_))
-print("Classes:", model_dept.classes_)
-
-
-
-for i, department in enumerate(model_dept.classes_):
-    top_indices = coefficients[i].argsort()[-10:][::-1]
-
-    print(f"\n{department}:")
-    print(feature_names[top_indices])
-
-
-
-
-
-sample_text = X_test_dept.iloc[0]
-
-sample_vector = tfidf_dept.transform([sample_text])
-
-predicted_department = model_dept.predict(sample_vector)[0]
-
-feature_values = sample_vector.toarray()[0]
-class_index = list(model_dept.classes_).index(predicted_department)
-
-contributions = feature_values * coefficients[class_index]
-
-top_indices = contributions.argsort()[-5:][::-1]
-
-print("Complaint:", sample_text)
-print("Predicted Department:", predicted_department)
-print("Top contributing words:")
-
-for index in top_indices:
-    if feature_values[index] > 0:
-        print(
-            feature_names[index],
-            "->",
-            round(contributions[index], 4)
-        )
-
-
-
-
-sample_text = "My university portal is not allowing me to login."
-
-sample_vector = tfidf_dept.transform([sample_text])
-
-predicted_department = model_dept.predict(sample_vector)[0]
-
-feature_values = sample_vector.toarray()[0]
-class_index = list(model_dept.classes_).index(predicted_department)
-
-contributions = feature_values * coefficients[class_index]
-
-top_indices = contributions.argsort()[-5:][::-1]
-
-print("Complaint:", sample_text)
-print("Predicted Department:", predicted_department)
-print("Top contributing words:")
-
-for index in top_indices:
-    if feature_values[index] > 0:
-        print(
-            feature_names[index],
-            "->",
-            round(contributions[index], 4)
-        )
-
-
-
-sample_text = "There is a water leakage in my hostel bathroom."
-
-sample_vector = tfidf_dept.transform([sample_text])
-
-predicted_department = model_dept.predict(sample_vector)[0]
-
-feature_values = sample_vector.toarray()[0]
-class_index = list(model_dept.classes_).index(predicted_department)
-
-contributions = feature_values * coefficients[class_index]
-
-top_indices = contributions.argsort()[-5:][::-1]
-
-print("Complaint:", sample_text)
-print("Predicted Department:", predicted_department)
-print("Top contributing words:")
-
-for index in top_indices:
-    if feature_values[index] > 0:
-        print(
-            feature_names[index],
-            "->",
-            round(contributions[index], 4)
-        )
-
-
-sample_text = "There is water leakage in the bathroom."
-
-sample_vector = tfidf_dept.transform([sample_text])
-
-predicted_department = model_dept.predict(sample_vector)[0]
-
-feature_values = sample_vector.toarray()[0]
-class_index = list(model_dept.classes_).index(predicted_department)
-
-contributions = feature_values * coefficients[class_index]
-
-top_indices = contributions.argsort()[-5:][::-1]
-
-print("Complaint:", sample_text)
-print("Predicted Department:", predicted_department)
-print("Top contributing words:")
-
-for index in top_indices:
-    if feature_values[index] > 0:
-        print(
-            feature_names[index],
-            "->",
-            round(contributions[index], 4)
-        )
-
-
-
-
-print(research_df[["text", "language"]].sample(10, random_state=42).to_string(index=False))
-
-
-
-
-tfidf_char_multi = TfidfVectorizer(
-    analyzer="char",
-    ngram_range=(3, 5)
+    threshold_results.append({
+        "Threshold": current_threshold,
+        "Reviewed": int(review_mask_temp.sum()),
+        "Simulated Accuracy":
+            accuracy_score(
+                y_test_dept,
+                simulated_pred_temp
+            ),
+        "Simulated Macro F1":
+            f1_score(
+                y_test_dept,
+                simulated_pred_temp,
+                average="macro"
+            )
+    })
+
+threshold_results_df = pd.DataFrame(
+    threshold_results
 )
 
-X_train_char_multi = tfidf_char_multi.fit_transform(X_train_dept)
-X_test_char_multi = tfidf_char_multi.transform(X_test_dept)
+threshold_results_df["Review %"] = (
+    threshold_results_df["Reviewed"] /
+    len(y_test_dept) * 100
+)
 
-model_char_multi = LinearSVC()
-model_char_multi.fit(X_train_char_multi, y_train_dept)
+print(threshold_results_df)
 
-y_pred_char_multi = model_char_multi.predict(X_test_char_multi)
-
-print("Overall Accuracy:",
-      accuracy_score(y_test_dept, y_pred_char_multi))
-
-print("Overall Macro F1:",
-      f1_score(y_test_dept, y_pred_char_multi, average="macro"))
-
-
-
-
-
-
-test_languages = research_df.loc[
-    X_test_dept.index, "language"
+best_threshold_row = threshold_results_df.loc[
+    threshold_results_df["Simulated Macro F1"].idxmax()
 ]
 
+print("\nBest tested threshold by Macro F1:")
+print(best_threshold_row)
+
+
+# ============================================================
+# 17. EXPERIMENT 10 - EXPLAINABILITY
+# ============================================================
+
+print("\n" + "=" * 60)
+print("17. EXPERIMENT 10 - EXPLAINABILITY")
+print("=" * 60)
+
+feature_names = tfidf_dept.get_feature_names_out()
+coefficients = model_dept.coef_
+classes = model_dept.classes_
+
+print("Number of TF-IDF features:", len(feature_names))
+print("Number of classes:", len(classes))
+print("Classes:", classes)
+
+for class_index, class_name in enumerate(classes):
+
+    top_indices = np.argsort(
+        coefficients[class_index]
+    )[-10:][::-1]
+
+    top_features = feature_names[top_indices]
+
+    print(f"\n{class_name}:")
+    print(list(top_features))
+
+
+def explain_prediction(text, model, vectorizer, top_n=5):
+
+    vector = vectorizer.transform([text])
+
+    predicted = model.predict(vector)[0]
+
+    class_index = list(
+        model.classes_
+    ).index(predicted)
+
+    feature_names_local = (
+        vectorizer.get_feature_names_out()
+    )
+
+    feature_values = vector.toarray()[0]
+    class_coefficients = (
+        model.coef_[class_index]
+    )
+
+    contributions = (
+        feature_values *
+        class_coefficients
+    )
+
+    top_indices = np.argsort(
+        contributions
+    )[-top_n:][::-1]
+
+    print("\nComplaint:", text)
+    print("Predicted department:", predicted)
+    print("Top contributing features:")
+
+    for index in top_indices:
+        if contributions[index] > 0:
+            print(
+                f"  {feature_names_local[index]}: "
+                f"{contributions[index]:.4f}"
+            )
+
+
+explain_prediction(
+    "How can I request a correction in my academic record?",
+    model_dept,
+    tfidf_dept
+)
+
+explain_prediction(
+    "My university portal is not allowing me to login.",
+    model_dept,
+    tfidf_dept
+)
+
+explain_prediction(
+    "There is a water leakage in my hostel bathroom.",
+    model_dept,
+    tfidf_dept
+)
+
+explain_prediction(
+    "There is water leakage in the bathroom.",
+    model_dept,
+    tfidf_dept
+)
+
+
+# ============================================================
+# 18. EXPERIMENT 11 - LANGUAGE-WISE CHAR VS WORD TF-IDF
+# ============================================================
+
+print("\n" + "=" * 60)
+print("18. EXPERIMENT 11 - LANGUAGE-WISE CHAR VS WORD TF-IDF")
+print("=" * 60)
+
+language_char_results = []
+
+char_predictions_series = pd.Series(
+    y_pred_char,
+    index=y_test_dept.index
+)
+
+word_predictions_series = pd.Series(
+    y_pred_dept,
+    index=y_test_dept.index
+)
+
 for language in ["English", "Hindi", "Hinglish"]:
-    mask = test_languages == language
 
-    language_accuracy = accuracy_score(
-        y_test_dept[mask],
-        y_pred_char_multi[mask]
+    language_mask = (
+        research_df.loc[
+            y_test_dept.index,
+            "language"
+        ] == language
     )
 
-    print(
-        f"{language} Accuracy: "
-        f"{language_accuracy:.2%} "
-        f"({mask.sum()} samples)"
+    true_values = y_test_dept[language_mask]
+    word_values = word_predictions_series[language_mask]
+    char_values = char_predictions_series[language_mask]
+
+    word_accuracy = accuracy_score(
+        true_values,
+        word_values
     )
 
+    char_accuracy = accuracy_score(
+        true_values,
+        char_values
+    )
+
+    language_char_results.append({
+        "Language": language,
+        "Word TF-IDF Accuracy": word_accuracy,
+        "Char TF-IDF Accuracy": char_accuracy,
+        "Difference (pp)":
+            (char_accuracy - word_accuracy) * 100,
+        "Samples": len(true_values)
+    })
+
+print(
+    pd.DataFrame(language_char_results)
+)
 
 
-    multi_df = research_df[
+# ============================================================
+# 19. EXPERIMENT 12 - MULTI-DEPARTMENT ROUTING
+# ============================================================
+
+print("\n" + "=" * 60)
+print("19. EXPERIMENT 12 - MULTI-DEPARTMENT ROUTING")
+print("=" * 60)
+
+multi_df = research_df[
     research_df["complaint_type"] == "multi"
 ].copy()
+
+print(
+    "Multi-issue complaints:",
+    len(multi_df)
+)
 
 multi_df["target_departments"] = (
     multi_df["primary_department"]
@@ -1588,11 +888,10 @@ multi_df["target_departments"] = (
     + multi_df["secondary_department"]
 )
 
-print("Multi-issue complaints:", len(multi_df))
 print("\nTarget department combinations:")
-print(multi_df["target_departments"].value_counts())
-
-
+print(
+    multi_df["target_departments"].value_counts()
+)
 
 multi_df["department_pair"] = multi_df.apply(
     lambda row: " + ".join(
@@ -1604,22 +903,12 @@ multi_df["department_pair"] = multi_df.apply(
     axis=1
 )
 
-print("Unique department pairs:", multi_df["department_pair"].nunique())
+print("\nUnique unordered pairs:",
+      multi_df["department_pair"].nunique())
 
-print("\nNormalized department pairs:")
-print(multi_df["department_pair"].value_counts())
-
-
-
-pair_counts = multi_df["department_pair"].value_counts()
-
-print("Minimum samples in a pair:", pair_counts.min())
-print("Maximum samples in a pair:", pair_counts.max())
-print("Pairs with fewer than 5 samples:")
-print(pair_counts[pair_counts < 5])
-
-
-
+print(
+    multi_df["department_pair"].value_counts()
+)
 
 departments = [
     "Academics",
@@ -1638,21 +927,8 @@ for department in departments:
         (multi_df["secondary_department"] == department)
     ).astype(int)
 
-print(
-    multi_df[departments].sum().sort_values(ascending=False)
-)
-
-
-
 X_multi = multi_df["text"]
-
 Y_multi = multi_df[departments]
-
-print("X shape:", X_multi.shape)
-print("Y shape:", Y_multi.shape)
-print("\nTarget columns:")
-print(Y_multi.columns.tolist())
-
 
 X_train_multi, X_test_multi, Y_train_multi, Y_test_multi = train_test_split(
     X_multi,
@@ -1661,27 +937,25 @@ X_train_multi, X_test_multi, Y_train_multi, Y_test_multi = train_test_split(
     random_state=42
 )
 
-print("Training samples:", len(X_train_multi))
-print("Testing samples:", len(X_test_multi))
-print("Training target shape:", Y_train_multi.shape)
-print("Testing target shape:", Y_test_multi.shape)
-
-
+print("Train shape before TF-IDF:", X_train_multi.shape)
+print("Test shape before TF-IDF:", X_test_multi.shape)
 
 tfidf_multi = TfidfVectorizer()
 
-X_train_multi_tfidf = tfidf_multi.fit_transform(X_train_multi)
-X_test_multi_tfidf = tfidf_multi.transform(X_test_multi)
+X_train_multi_tfidf = (
+    tfidf_multi.fit_transform(X_train_multi)
+)
 
-print("Training TF-IDF shape:", X_train_multi_tfidf.shape)
-print("Testing TF-IDF shape:", X_test_multi_tfidf.shape)
+X_test_multi_tfidf = (
+    tfidf_multi.transform(X_test_multi)
+)
 
+print("Train shape:", X_train_multi_tfidf.shape)
+print("Test shape:", X_test_multi_tfidf.shape)
 
-
-from sklearn.multiclass import OneVsRestClassifier
-from sklearn.svm import LinearSVC
-
-multi_model = OneVsRestClassifier(LinearSVC())
+multi_model = OneVsRestClassifier(
+    LinearSVC()
+)
 
 multi_model.fit(
     X_train_multi_tfidf,
@@ -1692,44 +966,31 @@ Y_pred_multi = multi_model.predict(
     X_test_multi_tfidf
 )
 
-print("Prediction shape:", Y_pred_multi.shape)
-
-
-
-from sklearn.metrics import accuracy_score
-
-multi_accuracy = accuracy_score(
-    Y_test_multi,
-    Y_pred_multi
+print(
+    "Subset accuracy:",
+    accuracy_score(
+        Y_test_multi,
+        Y_pred_multi
+    ) * 100
 )
 
-print("Multi-label accuracy:", multi_accuracy)
-
-
-from sklearn.metrics import hamming_loss
-
-multi_hamming = hamming_loss(
-    Y_test_multi,
-    Y_pred_multi
+print(
+    "Hamming loss:",
+    hamming_loss(
+        Y_test_multi,
+        Y_pred_multi
+    )
 )
 
-print("Hamming Loss:", multi_hamming)
-
-
-from sklearn.metrics import f1_score
-
-multi_f1 = f1_score(
-    Y_test_multi,
-    Y_pred_multi,
-    average="macro"
+print(
+    "Macro F1:",
+    f1_score(
+        Y_test_multi,
+        Y_pred_multi,
+        average="macro",
+        zero_division=0
+    )
 )
-
-print("Multi-label Macro F1:", multi_f1)
-
-
-
-
-from sklearn.metrics import classification_report
 
 print(
     classification_report(
@@ -1740,113 +1001,211 @@ print(
     )
 )
 
+false_positive_count = (
+    (Y_pred_multi == 1) &
+    (Y_test_multi.values == 0)
+).sum()
+
+false_negative_count = (
+    (Y_pred_multi == 0) &
+    (Y_test_multi.values == 1)
+).sum()
+
+print("False positives:", false_positive_count)
+print("False negatives:", false_negative_count)
 
 
-
-
-for i in range(len(X_test_multi)):
-    actual = [
-        departments[j]
-        for j in range(len(departments))
-        if Y_test_multi.iloc[i, j] == 1
-    ]
-
-    predicted = [
-        departments[j]
-        for j in range(len(departments))
-        if Y_pred_multi[i, j] == 1
-    ]
-
-    if actual != predicted:
-        print("\nComplaint:", X_test_multi.iloc[i])
-        print("Actual:   ", actual)
-        print("Predicted:", predicted)
-
-
-
-
-import numpy as np
-
-false_positives = np.sum(
-    (Y_pred_multi == 1) & (Y_test_multi.values == 0)
-)
-
-false_negatives = np.sum(
-    (Y_pred_multi == 0) & (Y_test_multi.values == 1)
-)
-
-print("False Positives:", false_positives)
-print("False Negatives:", false_negatives)
-
+# ------------------------------------------------------------
+# Multi-label decision scores
+# ------------------------------------------------------------
 
 decision_multi = multi_model.decision_function(
     X_test_multi_tfidf
 )
 
-print("Decision score shape:", decision_multi.shape)
-print("Minimum score:", decision_multi.min())
-print("Maximum score:", decision_multi.max())
+print(
+    "Decision score shape:",
+    decision_multi.shape
+)
+
+print(
+    "Minimum score:",
+    decision_multi.min()
+)
+
+print(
+    "Maximum score:",
+    decision_multi.max()
+)
 
 
-for i in range(len(X_test_multi)):
-    missed = []
+# ------------------------------------------------------------
+# Multi-label threshold sensitivity
+# ------------------------------------------------------------
 
-    for j, department in enumerate(departments):
-        if Y_test_multi.iloc[i, j] == 1 and Y_pred_multi[i, j] == 0:
-            missed.append(
-                (department, round(decision_multi[i, j], 4))
-            )
+multi_thresholds = [
+    -0.5,
+    -0.4,
+    -0.3,
+    -0.2,
+    -0.1,
+    0.0
+]
 
-    if missed:
-        print("\nComplaint:", X_test_multi.iloc[i])
-        print("Missed departments:", missed)
+multi_threshold_results = []
 
-
-
-thresholds = [-0.5, -0.4, -0.3, -0.2, -0.1, 0]
-
-for threshold in thresholds:
+for current_threshold in multi_thresholds:
 
     Y_pred_threshold = (
-        decision_multi >= threshold
+        decision_multi >= current_threshold
     ).astype(int)
 
-    accuracy = accuracy_score(
-        Y_test_multi,
-        Y_pred_threshold
-    )
+    multi_threshold_results.append({
+        "Threshold": current_threshold,
+        "Subset Accuracy":
+            accuracy_score(
+                Y_test_multi,
+                Y_pred_threshold
+            ),
+        "Hamming Loss":
+            hamming_loss(
+                Y_test_multi,
+                Y_pred_threshold
+            ),
+        "Macro F1":
+            f1_score(
+                Y_test_multi,
+                Y_pred_threshold,
+                average="macro",
+                zero_division=0
+            )
+    })
 
-    hamming = hamming_loss(
-        Y_test_multi,
-        Y_pred_threshold
-    )
+multi_threshold_df = pd.DataFrame(
+    multi_threshold_results
+)
 
-    f1 = f1_score(
-        Y_test_multi,
-        Y_pred_threshold,
-        average="macro"
-    )
+print("\nMulti-label threshold sensitivity:")
+print(multi_threshold_df)
 
-    print(
-        f"Threshold: {threshold:.1f} | "
-        f"Subset Accuracy: {accuracy:.4f} | "
-        f"Hamming Loss: {hamming:.4f} | "
-        f"Macro F1: {f1:.4f}"
-    )
+best_multi_threshold = multi_threshold_df.loc[
+    multi_threshold_df["Macro F1"].idxmax()
+]
 
+print("\nBest tested threshold by Macro F1:")
+print(best_multi_threshold)
 
+best_threshold = best_multi_threshold["Threshold"]
 
-Y_pred_best = (
-    decision_multi >= -0.2
+Y_pred_best_multi = (
+    decision_multi >= best_threshold
 ).astype(int)
 
-false_positives_best = np.sum(
-    (Y_pred_best == 1) & (Y_test_multi.values == 0)
+print(
+    f"\nAt threshold {best_threshold}"
 )
 
-false_negatives_best = np.sum(
-    (Y_pred_best == 0) & (Y_test_multi.values == 1)
+best_false_positive_count = (
+    (Y_pred_best_multi == 1) &
+    (Y_test_multi.values == 0)
+).sum()
+
+best_false_negative_count = (
+    (Y_pred_best_multi == 0) &
+    (Y_test_multi.values == 1)
+).sum()
+
+print(
+    "False positives:",
+    best_false_positive_count
 )
 
-print("False Positives at -0.2:", false_positives_best)
-print("False Negatives at -0.2:", false_negatives_best)
+print(
+    "False negatives:",
+    best_false_negative_count
+)
+
+print(
+    "Subset accuracy:",
+    accuracy_score(
+        Y_test_multi,
+        Y_pred_best_multi
+    ) * 100
+)
+
+print(
+    "Hamming loss:",
+    hamming_loss(
+        Y_test_multi,
+        Y_pred_best_multi
+    )
+)
+
+print(
+    "Macro F1:",
+    f1_score(
+        Y_test_multi,
+        Y_pred_best_multi,
+        average="macro",
+        zero_division=0
+    )
+)
+
+
+# ============================================================
+# 20. FINAL MODEL SAVE
+# ============================================================
+
+print("\n" + "=" * 60)
+print("20. FINAL MODEL SAVE")
+print("=" * 60)
+
+# IMPORTANT:
+# Save the vectorizer + classifier together.
+# Flask can then load one file and call:
+# pipeline.predict(["complaint text"])
+
+final_model = Pipeline([
+    ("tfidf", TfidfVectorizer()),
+    ("svm", LinearSVC())
+])
+
+final_model.fit(
+    X_train_dept,
+    y_train_dept
+)
+
+joblib.dump(
+    final_model,
+    MODEL_PATH
+)
+
+print("Model saved successfully:")
+print(MODEL_PATH)
+
+# Verify saved model
+loaded_model = joblib.load(MODEL_PATH)
+
+print("Saved model loaded successfully.")
+
+demo_complaints = [
+    "My hostel room fan is not working.",
+    "My university email account is not working.",
+    "My semester fee payment is failing.",
+    "The college bus is late every morning."
+]
+
+print("\nDemo predictions:")
+
+for complaint in demo_complaints:
+    prediction = loaded_model.predict([complaint])[0]
+    print(f"{complaint} -> {prediction}")
+
+
+# ============================================================
+# END
+# ============================================================
+
+print("\n" + "=" * 60)
+print("ALL EXPERIMENTS COMPLETED")
+print("=" * 60)
