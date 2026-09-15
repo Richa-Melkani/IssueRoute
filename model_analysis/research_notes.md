@@ -361,3 +361,138 @@ New Complaint Prediction: The trained Character TF-IDF + Linear SVM model succes
 
 
 
+# IssueRoute: Research Progress and Observations
+
+## 1. Research Dataset Preparation
+
+A research-oriented dataset was created to extend the original student complaint classification problem. The dataset contains the following fields:
+
+* `text` — complaint text
+* `primary_department` — main responsible department
+* `secondary_department` — second department for multi-department complaints
+* `complaint_type` — single, multi, or unknown
+* `language` — English, Hindi, or Hinglish
+
+The dataset currently contains **262 complaint records**.
+
+### Dataset Distribution
+
+**Complaint Type**
+
+* Single: 159
+* Multi: 83
+* Unknown: 20
+
+**Language**
+
+* English: 118
+* Hinglish: 74
+* Hindi: 70
+
+**Primary Department**
+
+* Hostels: 39
+* Maintenance: 35
+* Transport: 33
+* Administration: 29
+* IT Support: 28
+* Fees / Finance: 28
+* Academics: 25
+* Security / Discipline: 25
+* Unknown: 20
+
+No duplicate rows were found.
+
+### Observation
+
+The research dataset extends the original dataset by introducing **complaint type, secondary department, and language information**. This makes it possible to investigate problems beyond simple department classification, particularly multi-department complaints and complaints that cannot be assigned to the known departments.
+
+---
+
+# 2. Research Experiment 1 — Complaint Type Classification
+
+### Objective
+
+The first research experiment was designed to determine whether a machine learning model can classify a complaint into:
+
+* Single
+* Multi
+* Unknown
+
+### Method
+
+The following pipeline was used:
+
+**Complaint Text → Train/Test Split → TF-IDF → Linear SVM → Complaint Type Prediction**
+
+The dataset was divided using an **80:20 stratified split**:
+
+* Training samples: 209
+* Testing samples: 53
+
+TF-IDF was fitted only on the training data and then used to transform the test data.
+
+The resulting TF-IDF representation contained **474 features**.
+
+A **Linear SVM (LinearSVC)** classifier was trained on the TF-IDF features.
+
+---
+
+# 3. Experimental Results
+
+| Metric         |     Result |
+| -------------- | ---------: |
+| Accuracy       | **96.23%** |
+| Macro F1-score | **0.9322** |
+| Test samples   |     **53** |
+
+### Classification Report
+
+| Class   | Precision | Recall | F1-score |
+| ------- | --------: | -----: | -------: |
+| Multi   |      1.00 |   0.94 |     0.97 |
+| Single  |      0.94 |   1.00 |     0.97 |
+| Unknown |      1.00 |   0.75 |     0.86 |
+
+---
+
+# 4. Observations
+
+### Observation 1 — Strong overall classification
+
+The Linear SVM achieved **96.23% accuracy** and a **0.9322 Macro F1-score** on the test set, indicating strong initial performance in distinguishing single, multi, and unknown complaints.
+
+### Observation 2 — Single complaints were classified very well
+
+The model achieved **100% recall** for the Single class. All 32 single complaints in the test set were correctly identified.
+
+### Observation 3 — Multi complaints were also classified effectively
+
+The model correctly identified **16 out of 17** multi complaints. One multi complaint was incorrectly classified as single.
+
+### Observation 4 — Unknown complaints are more challenging
+
+The Unknown class achieved **75% recall**. One of the four unknown complaints in the test set was classified as single.
+
+This indicates that identifying complaints outside the known department categories may require further research.
+
+### Observation 5 — Main confusion
+
+The confusion matrix showed only two classification errors:
+
+```text
+                Predicted
+              Multi  Single  Unknown
+
+Actual Multi    16      1       0
+Actual Single    0     32       0
+Actual Unknown   0      1       3
+```
+
+The main observed confusion was between **Single and Unknown** complaints.
+
+### Observation 6 — Result should be treated as an initial experiment
+
+Although the accuracy is high, the test set contains only **53 complaints**, including only **4 Unknown complaints**. Therefore, these results should be considered an **initial research finding** rather than a final measure of real-world performance.
+
+A larger and more diverse dataset should be evaluated in future experiments.

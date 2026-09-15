@@ -49,3 +49,216 @@ text,primary_department,secondary_department,complaint_type,language
 "There was an unauthorized person inside the campus.",Security / Discipline,None,single,English
 "I want to report harassment by another student.",Security / Discipline,None,single,English
 "The campus parking area has a serious security problem.",Security / Discipline,None,single,English
+"Hostel water supply is not working and my semester fee payment is also failing.",Hostels,Fees / Finance,multi,English
+"The hostel room has a broken window and my room fan is also not working.",Hostels,Maintenance,multi,English
+"I cannot access the hostel Wi-Fi and my hostel room light is damaged.",IT Support,Hostels,multi,English
+"The college bus is always late and the driver behaves rudely with students.",Transport,Security / Discipline,multi,English
+"My bus pass is not working and my student ID card has also not been issued.",Transport,Administration,multi,English
+"My examination schedule is incorrect and my examination fee has been charged twice.",Academics,Fees / Finance,multi,English
+"My internal marks are missing and the student portal is also showing an error.",Academics,IT Support,multi,English
+"The classroom fan is broken and the lecture timetable has conflicting timings.",Maintenance,Academics,multi,English
+"There is water leakage in my hostel bathroom and the hostel room allocation is incorrect.",Maintenance,Hostels,multi,English
+"I cannot access my university email and my course registration is also showing an error.",IT Support,Academics,multi,English
+"Mere hostel mein paani nahi aa raha hai aur meri semester fee bhi submit nahi ho rahi.",Hostels,Fees / Finance,multi,Hinglish
+"Mere hostel room ka fan kharab hai aur window bhi toot gayi hai.",Hostels,Maintenance,multi,Hinglish
+"College bus bahut late aati hai aur driver students ke saath rude behave karta hai.",Transport,Security / Discipline,multi,Hinglish
+"Mere internal marks show nahi ho rahe aur student portal bhi open nahi ho raha.",Academics,IT Support,multi,Hinglish
+"Hostel bathroom mein leakage hai aur room allotment mein bhi problem hai.",Maintenance,Hostels,multi,Hinglish
+"मेरे हॉस्टल में पानी की समस्या है और मेरी फीस का भुगतान भी नहीं हो रहा है।",Hostels,Fees / Finance,multi,Hindi
+"मेरे परीक्षा अंक दिखाई नहीं दे रहे हैं और पोर्टल में भी समस्या है।",Academics,IT Support,multi,Hindi
+"बस बहुत देर से आती है और ड्राइवर छात्रों के साथ गलत व्यवहार करता है।",Transport,Security / Discipline,multi,Hindi
+"कक्षा का पंखा खराब है और टाइमटेबल में भी समस्या है।",Maintenance,Academics,multi,Hindi
+"हॉस्टल के बाथरूम में पानी की लीकेज है और कमरे का आवंटन भी गलत है।",Maintenance,Hostels,multi,Hindi
+"How can I start a student photography club?",Unknown,None,unknown,English
+"I want to organize a cultural festival for students.",Unknown,None,unknown,English
+"Where can students register for a debate competition?",Unknown,None,unknown,English
+"Can students get permission to organize a music event?",Unknown,None,unknown,English
+"I want information about joining a student sports club.",Unknown,None,unknown,English
+"How can I volunteer for a community service activity?",Unknown,None,unknown,English
+"Where can I find information about student exchange opportunities?",Unknown,None,unknown,English
+"I want to participate in an inter-university competition.",Unknown,None,unknown,English
+"How can I apply for a student leadership program?",Unknown,None,unknown,English
+"Is there a photography workshop available for students?",Unknown,None,unknown,English
+"Mujhe photography club join karna hai, process kya hai?",Unknown,None,unknown,Hinglish
+"Main college cultural event organize karna chahta hoon, permission kaise milegi?",Unknown,None,unknown,Hinglish
+"Mujhe student exchange program ke baare mein information chahiye.",Unknown,None,unknown,Hinglish
+"Debate competition mein participate karne ke liye registration kaise karu?",Unknown,None,unknown,Hinglish
+"मैं कॉलेज के म्यूजिक क्लब में शामिल होना चाहता हूँ।",Unknown,None,unknown,Hindi
+"मैं एक सांस्कृतिक कार्यक्रम आयोजित करना चाहता हूँ।",Unknown,None,unknown,Hindi
+"छात्रों के लिए एक्सचेंज प्रोग्राम की जानकारी कहाँ मिलेगी?",Unknown,None,unknown,Hindi
+"मैं कॉलेज की खेल प्रतियोगिता में भाग लेना चाहता हूँ।",Unknown,None,unknown,Hindi
+"छात्र नेतृत्व कार्यक्रम के लिए आवेदन कैसे करें?",Unknown,None,unknown,Hindi
+"Hostel mein room change ke liye request kaise submit karun?",Hostels,None,single,Hinglish
+"Mere hostel room mein AC kaam nahi kar raha hai.",Hostels,None,single,Hinglish
+"Hostel mess mein khana time par nahi milta.",Hostels,None,single,Hinglish
+"Mere hostel room ki window properly lock nahi ho rahi.",Hostels,None,single,Hinglish
+"Hostel mein hot water available nahi hai.",Hostels,None,single,Hinglish
+"मेरे हॉस्टल के कमरे में बिजली नहीं आ रही है।",Hostels,None,single,Hindi
+"हॉस्टल मेस में खाने की गुणवत्ता बहुत खराब है।",Hostels,None,single,Hindi
+"मुझे हॉस्टल में कमरा बदलना है।",Hostels,None,single,Hindi
+"मेरे हॉस्टल के कमरे का दरवाज़ा ठीक से बंद नहीं होता।",Hostels,None,single,Hindi
+"हॉस्टल में गर्म पानी की सुविधा काम नहीं कर रही है।",Hostels,None,single,Hindi
+"Mere laptop mein university portal open nahi ho raha.",IT Support,None,single,Hinglish
+"College Wi-Fi baar baar disconnect ho raha hai.",IT Support,None,single,Hinglish
+"Mera university email password reset nahi ho raha.",IT Support,None,single,Hinglish
+"Student portal mein login karne mein problem aa rahi hai.",IT Support,None,single,Hinglish
+"Computer lab ka internet kaam nahi kar raha.",IT Support,None,single,Hinglish
+"मेरे विश्वविद्यालय के ईमेल में लॉगिन नहीं हो रहा है।",IT Support,None,single,Hindi
+"कॉलेज का वाई-फाई बार-बार बंद हो रहा है।",IT Support,None,single,Hindi
+"स्टूडेंट पोर्टल में लॉगिन करने में समस्या हो रही है।",IT Support,None,single,Hindi
+"कंप्यूटर लैब में इंटरनेट काम नहीं कर रहा है।",IT Support,None,single,Hindi
+"मेरा पासवर्ड रीसेट नहीं हो रहा है।",IT Support,None,single,Hindi
+"Mere internal marks portal par show nahi ho rahe.",Academics,None,single,Hinglish
+"Course registration mein subject select nahi ho raha.",Academics,None,single,Hinglish
+"Exam timetable mein mera paper missing hai.",Academics,None,single,Hinglish
+"Professor ne assignment ka result upload nahi kiya.",Academics,None,single,Hinglish
+"Mujhe course syllabus ke baare mein clarification chahiye.",Academics,None,single,Hinglish
+"मेरे आंतरिक अंक पोर्टल पर दिखाई नहीं दे रहे हैं।",Academics,None,single,Hindi
+"परीक्षा की समय सारणी में मेरे विषय की जानकारी नहीं है।",Academics,None,single,Hindi
+"असाइनमेंट का परिणाम अभी तक अपलोड नहीं किया गया है।",Academics,None,single,Hindi
+"मुझे अपने पाठ्यक्रम के बारे में जानकारी चाहिए।",Academics,None,single,Hindi
+"कक्षा की समय सारणी में दो विषयों का समय एक ही है।",Academics,None,single,Hindi
+"Meri semester fee payment fail ho gayi.",Fees / Finance,None,single,Hinglish
+"Fee receipt abhi tak generate nahi hui.",Fees / Finance,None,single,Hinglish
+"Mere account se fee amount do baar deduct ho gaya.",Fees / Finance,None,single,Hinglish
+"Scholarship amount account mein credit nahi hua.",Fees / Finance,None,single,Hinglish
+"Mujhe fee refund ka status check karna hai.",Fees / Finance,None,single,Hinglish
+"मेरी सेमेस्टर फीस का भुगतान असफल हो गया।",Fees / Finance,None,single,Hindi
+"फीस की रसीद अभी तक प्राप्त नहीं हुई है।",Fees / Finance,None,single,Hindi
+"मेरे खाते से फीस की राशि दो बार कट गई।",Fees / Finance,None,single,Hindi
+"छात्रवृत्ति की राशि अभी तक खाते में नहीं आई है।",Fees / Finance,None,single,Hindi
+"मुझे अपनी फीस वापसी की जानकारी चाहिए।",Fees / Finance,None,single,Hindi
+"Mere bus pass mein problem aa rahi hai.",Transport,None,single,Hinglish
+"College bus ka timing regularly change ho raha hai.",Transport,None,single,Hinglish
+"Bus mere stop par nahi rukti.",Transport,None,single,Hinglish
+"Campus shuttle mein seats available nahi hoti.",Transport,None,single,Hinglish
+"Bus route ke baare mein information chahiye.",Transport,None,single,Hinglish
+"कॉलेज बस मेरे निर्धारित स्टॉप पर नहीं रुकती।",Transport,None,single,Hindi
+"बस का समय बार-बार बदल रहा है।",Transport,None,single,Hindi
+"कैंपस बस में बैठने के लिए पर्याप्त सीटें नहीं हैं।",Transport,None,single,Hindi
+"मुझे बस के नए मार्ग की जानकारी चाहिए।",Transport,None,single,Hindi
+"कॉलेज बस का पास काम नहीं कर रहा है।",Transport,None,single,Hindi
+"Hostel mein paani nahi aa raha aur campus Wi-Fi bhi kaam nahi kar raha.",Hostels,IT Support,multi,Hinglish
+"My hostel room fan is broken and my college email is not working.",Hostels,IT Support,multi,English
+"My semester fee payment failed and I cannot register for my courses.",Fees / Finance,Academics,multi,English
+"The college bus is always late and the driver behaves rudely.",Transport,Security / Discipline,multi,English
+"My hostel room has no water supply and the washroom needs repair.",Hostels,Maintenance,multi,English
+"I cannot access the student portal and my exam timetable is missing.",IT Support,Academics,multi,English
+"My scholarship has not been credited and my fee receipt is missing.",Fees / Finance,Administration,multi,English
+"The hostel corridor light is broken and there is no security guard nearby.",Maintenance,Security / Discipline,multi,English
+"The bus route has changed and I need to update my student records.",Transport,Administration,multi,English
+"My assignment marks are missing and the academic portal is not loading.",Academics,IT Support,multi,English
+"The hostel mess food is poor and I want to report a hygiene issue.",Hostels,Security / Discipline,multi,English
+"My fee refund is pending and my bank details need to be updated.",Fees / Finance,Administration,multi,English
+"The campus Wi-Fi is down and the computer lab equipment is damaged.",IT Support,Maintenance,multi,English
+"My bus pass is not working and my student ID card is damaged.",Transport,Administration,multi,English
+"The classroom projector is broken and my course registration is incomplete.",Maintenance,Academics,multi,English
+"My hostel room door lock is broken and I feel unsafe at night.",Hostels,Security / Discipline,multi,English
+"The exam timetable has an error and the examination portal is inaccessible.",Academics,IT Support,multi,English
+"My fee payment was deducted twice and the student portal shows the wrong balance.",Fees / Finance,IT Support,multi,English
+"The hostel has a water problem and the maintenance request has not been addressed.",Hostels,Maintenance,multi,English
+"The college bus is overcrowded and students are arguing with the driver.",Transport,Security / Discipline,multi,English
+"I cannot access my university email and I need to submit an assignment today.",IT Support,Academics,multi,English
+"Mere hostel room mein fan kharab hai aur Wi-Fi bhi nahi chal raha.",Hostels,IT Support,multi,Hinglish
+"Meri semester fee fail ho gayi aur course registration bhi nahi ho rahi.",Fees / Finance,Academics,multi,Hinglish
+"College bus late aati hai aur driver students se rudely baat karta hai.",Transport,Security / Discipline,multi,Hinglish
+"Hostel mein paani nahi aa raha aur bathroom repair ki zarurat hai.",Hostels,Maintenance,multi,Hinglish
+"Student portal login nahi ho raha aur exam timetable bhi show nahi ho raha.",IT Support,Academics,multi,Hinglish
+"Scholarship nahi mili aur fee receipt bhi generate nahi hui.",Fees / Finance,Administration,multi,Hinglish
+"Hostel corridor ki light kharab hai aur raat mein security bhi nahi hoti.",Maintenance,Security / Discipline,multi,Hinglish
+"Bus route change ho gaya hai aur student records mein bhi update chahiye.",Transport,Administration,multi,Hinglish
+"Assignment marks update nahi hue aur academic portal bhi open nahi ho raha.",Academics,IT Support,multi,Hinglish
+"Hostel mess ka food kharab hai aur hygiene ki complaint bhi karni hai.",Hostels,Security / Discipline,multi,Hinglish
+"Fee refund pending hai aur bank details update karwani hain.",Fees / Finance,Administration,multi,Hinglish
+"Campus Wi-Fi down hai aur computer lab ka equipment bhi damaged hai.",IT Support,Maintenance,multi,Hinglish
+"Bus pass kaam nahi kar raha aur student ID card bhi damage ho gaya hai.",Transport,Administration,multi,Hinglish
+"Classroom projector kharab hai aur course registration complete nahi ho rahi.",Maintenance,Academics,multi,Hinglish
+"Hostel room ka lock kharab hai aur raat mein safety ka issue hai.",Hostels,Security / Discipline,multi,Hinglish
+"Exam timetable mein mistake hai aur examination portal bhi access nahi ho raha.",Academics,IT Support,multi,Hinglish
+"Fee do baar deduct ho gayi aur portal par wrong balance show ho raha hai.",Fees / Finance,IT Support,multi,Hinglish
+"Hostel mein water problem hai aur maintenance request bhi solve nahi hui.",Hostels,Maintenance,multi,Hinglish
+"College bus bahut crowded hai aur driver se students ki argument ho rahi hai.",Transport,Security / Discipline,multi,Hinglish
+"University email access nahi ho raha aur mujhe assignment submit karna hai.",IT Support,Academics,multi,Hinglish
+"मेरे हॉस्टल के कमरे में पंखा खराब है और इंटरनेट भी काम नहीं कर रहा है।",Hostels,IT Support,multi,Hindi
+"मेरी सेमेस्टर फीस जमा नहीं हो रही है और पाठ्यक्रम पंजीकरण भी बंद है।",Fees / Finance,Academics,multi,Hindi
+"कॉलेज बस देर से आती है और ड्राइवर छात्रों से बदतमीजी करता है।",Transport,Security / Discipline,multi,Hindi
+"हॉस्टल में पानी नहीं आ रहा है और बाथरूम की मरम्मत भी चाहिए।",Hostels,Maintenance,multi,Hindi
+"स्टूडेंट पोर्टल में लॉगिन नहीं हो रहा और परीक्षा की समय सारणी भी नहीं दिख रही।",IT Support,Academics,multi,Hindi
+"छात्रवृत्ति की राशि नहीं मिली और फीस की रसीद भी नहीं मिली।",Fees / Finance,Administration,multi,Hindi
+"हॉस्टल की गलियारे की लाइट खराब है और रात में सुरक्षा भी नहीं है।",Maintenance,Security / Discipline,multi,Hindi
+"बस का मार्ग बदल गया है और मेरे छात्र रिकॉर्ड में भी बदलाव करना है।",Transport,Administration,multi,Hindi
+"मेरे असाइनमेंट के अंक नहीं दिख रहे और अकादमिक पोर्टल भी नहीं खुल रहा है।",Academics,IT Support,multi,Hindi
+"हॉस्टल के खाने की गुणवत्ता खराब है और स्वच्छता की शिकायत भी है।",Hostels,Security / Discipline,multi,Hindi
+"फीस वापसी लंबित है और बैंक की जानकारी भी अपडेट करनी है।",Fees / Finance,Administration,multi,Hindi
+"कैंपस का वाई-फाई बंद है और कंप्यूटर लैब का उपकरण भी खराब है।",IT Support,Maintenance,multi,Hindi
+"बस पास काम नहीं कर रहा और मेरा छात्र पहचान पत्र भी खराब हो गया है।",Transport,Administration,multi,Hindi
+"कक्षा का प्रोजेक्टर खराब है और पाठ्यक्रम पंजीकरण भी पूरा नहीं हो रहा है।",Maintenance,Academics,multi,Hindi
+"हॉस्टल के कमरे का ताला खराब है और रात में सुरक्षा को लेकर समस्या है।",Hostels,Security / Discipline,multi,Hindi
+"परीक्षा की समय सारणी में गलती है और परीक्षा पोर्टल भी नहीं खुल रहा है।",Academics,IT Support,multi,Hindi
+"फीस की राशि दो बार कट गई और पोर्टल पर गलत बैलेंस दिख रहा है।",Fees / Finance,IT Support,multi,Hindi
+"हॉस्टल में पानी की समस्या है और रखरखाव की शिकायत भी हल नहीं हुई है।",Hostels,Maintenance,multi,Hindi
+"कॉलेज बस बहुत भरी रहती है और ड्राइवर से छात्रों की बहस हो रही है।",Transport,Security / Discipline,multi,Hindi
+"विश्वविद्यालय की ईमेल सेवा नहीं खुल रही और मुझे असाइनमेंट जमा करना है।",IT Support,Academics,multi,Hindi
+"How can I update my student registration details?",Administration,None,single,English
+"I need a correction in my student name on the university records.",Administration,None,single,English
+"Where can I get an official enrollment certificate?",Administration,None,single,English
+"I want to apply for a student identity card.",Administration,None,single,English
+"My student record has an incorrect date of birth.",Administration,None,single,English
+"Mujhe apne student records mein address update karwana hai.",Administration,None,single,Hinglish
+"Meri ID card application ka status check karna hai.",Administration,None,single,Hinglish
+"University se official bonafide certificate kaise milega?",Administration,None,single,Hinglish
+"मेरे विश्वविद्यालय रिकॉर्ड में मेरा नाम गलत है।",Administration,None,single,Hindi
+"मुझे छात्र पहचान पत्र के लिए आवेदन करना है।",Administration,None,single,Hindi
+"Someone damaged my bicycle in the campus parking area.",Security / Discipline,None,single,English
+"I want to report a student threatening others on campus.",Security / Discipline,None,single,English
+"There was an argument between students near the library.",Security / Discipline,None,single,English
+"My bicycle was stolen from the college parking area.",Security / Discipline,None,single,English
+"I want to report unauthorized entry into a restricted campus area.",Security / Discipline,None,single,English
+"Campus mein students ke beech fight ho rahi hai.",Security / Discipline,None,single,Hinglish
+"Meri cycle campus parking se chori ho gayi hai.",Security / Discipline,None,single,Hinglish
+"Ek student dusre students ko repeatedly threaten kar raha hai.",Security / Discipline,None,single,Hinglish
+"कैंपस में छात्रों के बीच झगड़ा हुआ है।",Security / Discipline,None,single,Hindi
+"कॉलेज की पार्किंग से मेरी साइकिल चोरी हो गई है।",Security / Discipline,None,single,Hindi
+"The classroom ceiling fan is making a loud noise.",Maintenance,None,single,English
+"The corridor floor is damaged and needs repair.",Maintenance,None,single,English
+"The laboratory sink is leaking continuously.",Maintenance,None,single,English
+"The classroom lights are not working properly.",Maintenance,None,single,English
+"The library air conditioner is not cooling the room.",Maintenance,None,single,English
+"The college washroom tap is broken.",Maintenance,None,single,English
+"There is water leakage from the classroom ceiling.",Maintenance,None,single,English
+"The campus drinking water cooler is not working.",Maintenance,None,single,English
+"The staircase handrail is loose and needs repair.",Maintenance,None,single,English
+"The classroom door handle is broken.",Maintenance,None,single,Hinglish
+"College ke corridor ki light kaam nahi kar rahi.",Maintenance,None,single,Hinglish
+"Classroom mein ceiling se paani leak ho raha hai.",Maintenance,None,single,Hinglish
+"Campus ka water cooler kharab hai.",Maintenance,None,single,Hinglish
+"Lab ka sink leak kar raha hai.",Maintenance,None,single,Hinglish
+"कक्षा की लाइट ठीक से काम नहीं कर रही है।",Maintenance,None,single,Hindi
+"कॉलेज के गलियारे का फर्श टूट गया है।",Maintenance,None,single,Hindi
+"प्रयोगशाला में पानी का नल लगातार लीक हो रहा है।",Maintenance,None,single,Hindi
+"कैंपस का पानी का कूलर खराब है।",Maintenance,None,single,Hindi
+"सीढ़ियों की रेलिंग ढीली हो गई है।",Maintenance,None,single,Hindi
+"How can I request a correction in my academic record?",Administration,None,single,English
+"Where can I obtain an official student enrollment letter?",Administration,None,single,English
+"I need to update my emergency contact information.",Administration,None,single,English
+"How can I request a duplicate student identity card?",Administration,None,single,English
+"My university profile contains the wrong phone number.",Administration,None,single,English
+"I need an official certificate confirming my student status.",Administration,None,single,English
+"Where should I submit a request for a change of personal details?",Administration,None,single,English
+"Mujhe apne university record mein phone number update karna hai.",Administration,None,single,Hinglish
+"Duplicate student ID card ke liye apply kaise karun?",Administration,None,single,Hinglish
+"Mujhe official enrollment certificate chahiye.",Administration,None,single,Hinglish
+"मेरे छात्र रिकॉर्ड में मेरा पता गलत दर्ज है।",Administration,None,single,Hindi
+"मुझे अपने व्यक्तिगत विवरण में बदलाव करना है।",Administration,None,single,Hindi
+"मुझे छात्र होने का आधिकारिक प्रमाण पत्र चाहिए।",Administration,None,single,Hindi
+"मैं अपना आपातकालीन संपर्क नंबर अपडेट करना चाहता हूँ।",Administration,None,single,Hindi
+"Someone entered the restricted laboratory without permission.",Security / Discipline,None,single,English
+"I want to report harassment by another student.",Security / Discipline,None,single,English
+"A student damaged college property intentionally.",Security / Discipline,None,single,English
+"There was a physical fight between two students.",Security / Discipline,None,single,English
+"I saw someone attempting to enter the campus without authorization.",Security / Discipline,None,single,English
+"Students are smoking in a prohibited campus area.",Security / Discipline,None,single,Hinglish
+"Ek student college property ko jaan-bujhkar damage kar raha hai.",Security / Discipline,None,single,Hinglish
+"Campus mein do students ke beech fight hui hai.",Security / Discipline,None,single,Hinglish
+"कैंपस के प्रतिबंधित क्षेत्र में कोई व्यक्ति बिना अनुमति के प्रवेश कर रहा था।",Security / Discipline,None,single,Hindi
+"एक छात्र दूसरे छात्र को परेशान कर रहा है।",Security / Discipline,None,single,Hindi
