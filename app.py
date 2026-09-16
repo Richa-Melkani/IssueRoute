@@ -7,16 +7,22 @@ from pathlib import Path
 app = Flask(__name__)
 
 
-# Get project root directory
+# Project directory
 BASE_DIR = Path(__file__).resolve().parent
 
 
-# Model path
-MODEL_PATH = BASE_DIR / "models" / "issue_route_model.pkl"
+# Model paths
+SINGLE_MODEL_PATH = BASE_DIR / "models" / "issue_route_model.pkl"
+MULTI_MODEL_PATH = BASE_DIR / "models" / "multi_department_model.pkl"
 
 
-# Load trained model
-model = joblib.load(MODEL_PATH)
+# Load models
+single_model = joblib.load(SINGLE_MODEL_PATH)
+
+multi_model_data = joblib.load(MULTI_MODEL_PATH)
+
+multi_model = multi_model_data["model"]
+multi_mlb = multi_model_data["mlb"]
 
 
 # Home page
@@ -25,56 +31,115 @@ def home():
     return render_template("index.html")
 
 
-# Complaint prediction API
+# Complaint prediction
 @app.route("/predict", methods=["POST"])
 def predict():
 
-    # Get JSON data from request
+    # Get JSON data
     data = request.get_json()
 
     # Get complaint text
     complaint = data.get("complaint", "").strip()
 
-    # Check if complaint is empty
+
+    # Check empty complaint
     if not complaint:
         return jsonify({
             "error": "Please enter a complaint."
         }), 400
 
-    # Predict department
-    prediction = model.predict([complaint])[0]
 
-    # Get decision scores
-    scores = model.decision_function([complaint])[0]
+    # -----------------------------------
+    # STEP 1: Check for multiple issues
+    # -----------------------------------
 
-    # Get highest score
+    # Simple rule-based indicators for multi-issue complaints
+    multi_indicators = [
+        " and ",
+        "also",
+        " as well as ",
+        "along with",
+        "plus"
+    ]
+
+
+    is_multi = any(
+        indicator in complaint.lower()
+        for indicator in multi_indicators
+    )
+
+
+    # -----------------------------------
+    # MULTI-DEPARTMENT COMPLAINT
+    # -----------------------------------
+
+    if is_multi:
+
+        prediction = multi_model.predict([complaint])
+
+        departments = list(
+            multi_mlb.inverse_transform(prediction)[0]
+        )
+
+
+        # If multiple departments detected
+        if len(departments) >= 2:
+
+            return jsonify({
+                "complaint": complaint,
+                "complaint_type": "Multi-Department",
+                "departments": departments,
+                "status": "Multiple Departments Detected"
+            })
+
+
+    # -----------------------------------
+    # SINGLE-DEPARTMENT COMPLAINT
+    # -----------------------------------
+
+    prediction = single_model.predict([complaint])[0]
+
+
+    # Decision scores
+    scores = single_model.decision_function([complaint])[0]
+
+
+    # Highest score
     max_score = max(scores)
 
-    # Get second highest score
+
+    # Second highest score
     sorted_scores = sorted(scores, reverse=True)
+
     second_highest_score = sorted_scores[1]
 
-    # Calculate uncertainty margin
+
+    # Confidence margin
     margin = max_score - second_highest_score
 
-    # Confidence threshold
+
+    # Uncertainty threshold
     threshold = 0.3
 
-    # Decide routing status
+
     if margin >= threshold:
+
         status = "Auto Routed"
+
     else:
+
         status = "Human Verification Required"
 
-    # Return result
+
     return jsonify({
         "complaint": complaint,
-        "predicted_department": prediction,
+        "complaint_type": "Single-Department",
+        "departments": [prediction],
         "margin": round(float(margin), 4),
         "status": status
     })
 
 
-# Run Flask application
+# Run application
 if __name__ == "__main__":
     app.run(debug=True)
