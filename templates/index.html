@@ -100,79 +100,118 @@
 
     </div>
 
+<script>
 
-    <script>
+    async function submitComplaint() {
 
-        async function submitComplaint() {
+        const complaint = document
+            .getElementById("complaint")
+            .value
+            .trim();
 
-            const complaint = document
-                .getElementById("complaint")
-                .value
-                .trim();
-
-            const result = document.getElementById("result");
+        const result = document.getElementById("result");
 
 
-            // Check empty complaint
-            if (!complaint) {
+        // Check if complaint is empty
+        if (!complaint) {
 
-                result.style.display = "block";
+            result.style.display = "block";
+
+            result.innerHTML =
+                '<p class="error">Please enter a complaint.</p>';
+
+            return;
+        }
+
+
+        // Show processing message
+        result.style.display = "block";
+
+        result.innerHTML = "Processing complaint...";
+
+
+        try {
+
+            // Send complaint to Flask backend
+            const response = await fetch("/predict", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    complaint: complaint
+                })
+
+            });
+
+
+            // Convert response to JSON
+            const data = await response.json();
+
+
+            // Handle backend error
+            if (!response.ok) {
 
                 result.innerHTML =
-                    '<p class="error">Please enter a complaint.</p>';
+                    '<p class="error">' +
+                    data.error +
+                    '</p>';
 
                 return;
             }
 
 
-            // Show processing message
-            result.style.display = "block";
+            // --------------------------------
+            // Multi-department complaint
+            // --------------------------------
 
-            result.innerHTML = "Processing complaint...";
+            if (data.complaint_type === "Multi-Department") {
 
-
-            try {
-
-                // Send complaint to Flask backend
-                const response = await fetch("/predict", {
-
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        complaint: complaint
-                    })
-
-                });
-
-
-                // Convert response to JSON
-                const data = await response.json();
-
-
-                // Handle error
-                if (!response.ok) {
-
-                    result.innerHTML =
-                        '<p class="error">' +
-                        data.error +
-                        '</p>';
-
-                    return;
-                }
-
-
-                // Display prediction
                 result.innerHTML = `
 
                     <h3>Prediction Result</h3>
 
                     <p>
+                        <strong>Complaint Type:</strong>
+                        Multi-Department
+                    </p>
+
+                    <p>
+                        <strong>Departments:</strong>
+                        ${data.departments.join(", ")}
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        ${data.status}
+                    </p>
+
+                `;
+
+            }
+
+
+            // --------------------------------
+            // Single-department complaint
+            // --------------------------------
+
+            else {
+
+                result.innerHTML = `
+
+                    <h3>Prediction Result</h3>
+
+                    <p>
+                        <strong>Complaint Type:</strong>
+                        Single-Department
+                    </p>
+
+                    <p>
                         <strong>Department:</strong>
-                        ${data.predicted_department}
+                        ${data.departments.join(", ")}
                     </p>
 
                     <p>
@@ -189,19 +228,21 @@
 
             }
 
+        }
 
-            catch (error) {
 
-                result.innerHTML =
-                    '<p class="error">' +
-                    'Unable to connect to the server.' +
-                    '</p>';
+        catch (error) {
 
-            }
+            result.innerHTML =
+                '<p class="error">' +
+                'Unable to connect to the server.' +
+                '</p>';
 
         }
 
-    </script>
+    }
+
+</script>
 
 </body>
 
