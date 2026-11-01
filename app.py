@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent
 SINGLE_MODEL_PATH = BASE_DIR / "models" / "issue_route_model.pkl"
 MULTI_MODEL_PATH = BASE_DIR / "models" / "multi_department_model.pkl"
 COMPLAINT_TYPE_MODEL_PATH = BASE_DIR / "models" / "complaint_type_model.pkl"
-
+UNKNOWN_MODEL_PATH = BASE_DIR / "models" / "unknown_model.pkl"
 
 # Load models
 single_model = joblib.load(SINGLE_MODEL_PATH)
@@ -24,7 +24,7 @@ complaint_type_model = joblib.load(COMPLAINT_TYPE_MODEL_PATH)
 multi_model_data = joblib.load(MULTI_MODEL_PATH)
 multi_model = multi_model_data["model"]
 multi_mlb = multi_model_data["mlb"]
-
+unknown_model = joblib.load(UNKNOWN_MODEL_PATH)
 
 # Home page
 @app.route("/")
@@ -109,7 +109,15 @@ def predict():
     # -----------------------------------
 
     prediction = single_model.predict([complaint])[0]
-
+    # Handle unknown department prediction
+    if str(prediction).strip().lower() == "unknown":
+        return jsonify({
+            "complaint": complaint,
+            "complaint_type": "Unknown",
+            "departments": [],
+            "status": "Human Verification Required",
+            "message": "This complaint could not be assigned to a recognised department. Manual review is required."
+        })
     # Get decision scores
     scores = single_model.decision_function([complaint])[0]
 

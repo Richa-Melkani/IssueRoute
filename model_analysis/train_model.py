@@ -1225,6 +1225,35 @@ joblib.dump(
 print("Model saved successfully:")
 print(MODEL_PATH)
 
+
+# ------------------------------------------------------------
+# Save Unknown vs Known classifier
+# ------------------------------------------------------------
+
+UNKNOWN_MODEL_PATH = MODEL_DIR / "unknown_model.pkl"
+
+unknown_model = Pipeline([
+    ("tfidf", TfidfVectorizer()),
+    ("svm", LinearSVC())
+])
+
+# Train using the complete research dataset
+unknown_model.fit(X_research, y_unknown)
+
+joblib.dump(
+    unknown_model,
+    UNKNOWN_MODEL_PATH
+)
+
+print("Unknown detection model saved successfully:")
+print(UNKNOWN_MODEL_PATH)
+
+# Verify saved model
+loaded_unknown_model = joblib.load(UNKNOWN_MODEL_PATH)
+
+print("Unknown detection model loaded successfully.")
+
+
 # Verify saved model
 loaded_model = joblib.load(MODEL_PATH)
 
