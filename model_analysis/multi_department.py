@@ -27,13 +27,16 @@ df = pd.read_csv(DATASET_PATH)
 
 # Keep only multi-department complaints
 multi_df = df[df["complaint_type"] == "multi"].copy()
-
+print("Total multi-department complaints:", len(multi_df))
 
 # Create department labels
 multi_df["departments"] = multi_df.apply(
     lambda row: [
-        row["primary_department"],
-        row["secondary_department"]
+        dept for dept in [
+            row["primary_department"],
+            row["secondary_department"]
+        ]
+        if pd.notna(dept) and str(dept).strip() != ""
     ],
     axis=1
 )
@@ -75,7 +78,7 @@ model = Pipeline([
 
 # Train model
 model.fit(X_train, y_train)
-
+print("Test Accuracy:", model.score(X_test, y_test))
 
 # Save model and label encoder together
 model_data = {

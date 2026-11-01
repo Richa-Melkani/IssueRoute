@@ -189,7 +189,22 @@ print("7. RESEARCH DATASET")
 print("=" * 60)
 
 research_df = pd.read_csv(RESEARCH_PATH)
+print("Research dataset columns:", research_df.columns.tolist())
+required_columns = [
+    "text",
+    "primary_department",
+    "secondary_department",
+    "complaint_type",
+    "language"
+]
 
+missing_columns = [
+    col for col in required_columns
+    if col not in research_df.columns
+]
+
+if missing_columns:
+    raise ValueError(f"Missing columns: {missing_columns}")
 # IMPORTANT:
 # Remove exact duplicate rows BEFORE any research experiment.
 # This prevents duplicate records from affecting train/test results.
@@ -206,7 +221,17 @@ print("Rows before duplicate removal:", before_duplicates)
 print("Duplicate rows removed:", removed_duplicates)
 print("Rows after duplicate removal:", len(research_df))
 print("Shape:", research_df.shape)
-
+# Clean complaint text
+research_df = research_df.dropna(subset=["text"])
+research_df["text"] = research_df["text"].astype(str).str.strip()
+research_df = research_df[research_df["text"] != ""]
+research_df = research_df.dropna(
+    subset=["primary_department", "complaint_type", "language"]
+)
+# Normalize complaint type
+research_df["complaint_type"] = (
+    research_df["complaint_type"].str.strip().str.lower()
+)
 print("\nComplaint types:")
 print(research_df["complaint_type"].value_counts())
 
@@ -265,6 +290,23 @@ print(classification_report(y_test_type, y_pred_type, zero_division=0))
 print("Confusion matrix:")
 print(confusion_matrix(y_test_type, y_pred_type))
 
+
+# Save complaint-type model
+complaint_type_model = Pipeline([
+    ("tfidf", TfidfVectorizer()),
+    ("svm", LinearSVC())
+])
+
+complaint_type_model.fit(X_research, y_type)
+
+COMPLAINT_TYPE_MODEL_PATH = MODEL_DIR / "complaint_type_model.pkl"
+
+joblib.dump(
+    complaint_type_model,
+    COMPLAINT_TYPE_MODEL_PATH
+)
+
+print("Complaint-type model saved:", COMPLAINT_TYPE_MODEL_PATH)
 
 # ============================================================
 # 9. EXPERIMENT 2 - MULTI VS NOT-MULTI

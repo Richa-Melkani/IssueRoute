@@ -5,245 +5,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>IssueRoute - Student Complaint Routing</title>
+    <title>IssueRoute | Student Complaint Portal</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f8;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 700px;
-            margin: 60px auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            color: #222;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 25px;
-        }
-
-        textarea {
-            width: 100%;
-            height: 150px;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            resize: vertical;
-            box-sizing: border-box;
-            font-size: 15px;
-        }
-
-        button {
-            width: 100%;
-            margin-top: 15px;
-            padding: 12px;
-            background-color: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #1d4ed8;
-        }
-
-        #result {
-            margin-top: 25px;
-            padding: 20px;
-            background-color: #f1f5f9;
-            border-radius: 6px;
-            display: none;
-        }
-
-        .error {
-            color: red;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
 
-    <div class="container">
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">IssueRoute</div>
+            <p>Student Complaint Portal</p>
+        </div>
+    </header>
 
-        <h1>IssueRoute</h1>
+    <main class="container">
 
-        <p class="subtitle">
-            Student Complaint Classification and Department Routing
-        </p>
+        <section class="intro">
+            <h1>Welcome to IssueRoute</h1>
+            <p>
+                Submit your complaints and get them directed
+                to the appropriate department.
+            </p>
+        </section>
 
-        <textarea
-            id="complaint"
-            placeholder="Enter your complaint here..."
-        ></textarea>
+        <section class="complaint-card">
 
-        <button onclick="submitComplaint()">
-            Submit Complaint
-        </button>
+            <h2>Submit a Complaint</h2>
 
-        <div id="result"></div>
+            <p class="form-description">
+                Please describe your issue clearly so that it
+                can be directed to the correct department.
+            </p>
 
-    </div>
+            <form id="complaintForm">
 
-<script>
+                <label for="complaint">Your Complaint</label>
 
-    async function submitComplaint() {
+                <textarea
+                    id="complaint"
+                    name="complaint"
+                    placeholder="Write your complaint here..."
+                    rows="6"
+                    required
+                ></textarea>
 
-        const complaint = document
-            .getElementById("complaint")
-            .value
-            .trim();
+                <div class="form-footer">
+                    <span class="helper-text">
+                        Please provide complete details of your issue.
+                    </span>
 
-        const result = document.getElementById("result");
+                    <button type="submit" id="submitBtn">
+                        Submit Complaint
+                    </button>
+                </div>
 
+            </form>
 
-        // Check if complaint is empty
-        if (!complaint) {
+            <div id="result" class="result" aria-live="polite" hidden>
+            </div>
 
-            result.style.display = "block";
+        </section>
 
-            result.innerHTML =
-                '<p class="error">Please enter a complaint.</p>';
+        <section class="info-section">
 
-            return;
-        }
+            <h2>How It Works</h2>
 
+            <div class="steps">
 
-        // Show processing message
-        result.style.display = "block";
+                <div class="step">
+                    <span class="step-number">01</span>
+                    <h3>Submit</h3>
+                    <p>Describe your complaint in the form.</p>
+                </div>
 
-        result.innerHTML = "Processing complaint...";
+                <div class="step">
+                    <span class="step-number">02</span>
+                    <h3>Classification</h3>
+                    <p>Your complaint is classified by the system.</p>
+                </div>
 
+                <div class="step">
+                    <span class="step-number">03</span>
+                    <h3>Department</h3>
+                    <p>The appropriate department is identified.</p>
+                </div>
 
-        try {
+            </div>
 
-            // Send complaint to Flask backend
-            const response = await fetch("/predict", {
+        </section>
 
-                method: "POST",
+    </main>
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+    <footer class="footer">
+        <p>IssueRoute &copy; 2026 | Student Complaint Portal</p>
+    </footer>
 
-                body: JSON.stringify({
-                    complaint: complaint
-                })
-
-            });
-
-
-            // Convert response to JSON
-            const data = await response.json();
-
-
-            // Handle backend error
-            if (!response.ok) {
-
-                result.innerHTML =
-                    '<p class="error">' +
-                    data.error +
-                    '</p>';
-
-                return;
-            }
-
-
-            // --------------------------------
-            // Multi-department complaint
-            // --------------------------------
-
-            if (data.complaint_type === "Multi-Department") {
-
-                result.innerHTML = `
-
-                    <h3>Prediction Result</h3>
-
-                    <p>
-                        <strong>Complaint Type:</strong>
-                        Multi-Department
-                    </p>
-
-                    <p>
-                        <strong>Departments:</strong>
-                        ${data.departments.join(", ")}
-                    </p>
-
-                    <p>
-                        <strong>Status:</strong>
-                        ${data.status}
-                    </p>
-
-                `;
-
-            }
-
-
-            // --------------------------------
-            // Single-department complaint
-            // --------------------------------
-
-            else {
-
-                result.innerHTML = `
-
-                    <h3>Prediction Result</h3>
-
-                    <p>
-                        <strong>Complaint Type:</strong>
-                        Single-Department
-                    </p>
-
-                    <p>
-                        <strong>Department:</strong>
-                        ${data.departments.join(", ")}
-                    </p>
-
-                    <p>
-                        <strong>Confidence Margin:</strong>
-                        ${data.margin}
-                    </p>
-
-                    <p>
-                        <strong>Status:</strong>
-                        ${data.status}
-                    </p>
-
-                `;
-
-            }
-
-        }
-
-
-        catch (error) {
-
-            result.innerHTML =
-                '<p class="error">' +
-                'Unable to connect to the server.' +
-                '</p>';
-
-        }
-
-    }
-
-</script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
-
 </html>

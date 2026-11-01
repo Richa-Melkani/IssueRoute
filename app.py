@@ -14,13 +14,14 @@ BASE_DIR = Path(__file__).resolve().parent
 # Model paths
 SINGLE_MODEL_PATH = BASE_DIR / "models" / "issue_route_model.pkl"
 MULTI_MODEL_PATH = BASE_DIR / "models" / "multi_department_model.pkl"
+COMPLAINT_TYPE_MODEL_PATH = BASE_DIR / "models" / "complaint_type_model.pkl"
 
 
 # Load models
 single_model = joblib.load(SINGLE_MODEL_PATH)
+complaint_type_model = joblib.load(COMPLAINT_TYPE_MODEL_PATH)
 
 multi_model_data = joblib.load(MULTI_MODEL_PATH)
-
 multi_model = multi_model_data["model"]
 multi_mlb = multi_model_data["mlb"]
 
@@ -36,41 +37,47 @@ def home():
 def predict():
 
     # Get JSON data
-    data = request.get_json()
+    data = request.get_json(silent=True)
 
-    # Get complaint text
-    complaint = data.get("complaint", "").strip()
+    if not isinstance(data, dict):
+        return jsonify({
+            "error": "Invalid request. Please send valid JSON data."
+        }), 400
 
+    # Get and validate complaint text
+    complaint = data.get("complaint", "")
 
-    # Check empty complaint
+    if not isinstance(complaint, str):
+        return jsonify({
+            "error": "Complaint must be text."
+        }), 400
+
+    complaint = complaint.strip()
+
     if not complaint:
         return jsonify({
             "error": "Please enter a complaint."
         }), 400
 
+    # -----------------------------------
+    # STEP 1: Predict complaint type
+    # -----------------------------------
+
+    complaint_type = complaint_type_model.predict([complaint])[0]
+    is_multi = complaint_type == "multi"
+
+    # Handle unknown complaints
+    if complaint_type == "unknown":
+        return jsonify({
+            "complaint": complaint,
+            "complaint_type": "Unknown",
+            "departments": [],
+            "status": "Human Verification Required",
+            "message": "The complaint could not be classified confidently. Manual review is required."
+        })
 
     # -----------------------------------
-    # STEP 1: Check for multiple issues
-    # -----------------------------------
-
-    # Simple rule-based indicators for multi-issue complaints
-    multi_indicators = [
-        " and ",
-        "also",
-        " as well as ",
-        "along with",
-        "plus"
-    ]
-
-
-    is_multi = any(
-        indicator in complaint.lower()
-        for indicator in multi_indicators
-    )
-
-
-    # -----------------------------------
-    # MULTI-DEPARTMENT COMPLAINT
+    # STEP 2: Multi-department complaint
     # -----------------------------------
 
     if is_multi:
@@ -81,10 +88,7 @@ def predict():
             multi_mlb.inverse_transform(prediction)[0]
         )
 
-
-        # If multiple departments detected
         if len(departments) >= 2:
-
             return jsonify({
                 "complaint": complaint,
                 "complaint_type": "Multi-Department",
@@ -92,44 +96,44 @@ def predict():
                 "status": "Multiple Departments Detected"
             })
 
+        return jsonify({
+            "complaint": complaint,
+            "complaint_type": "Multi-Department",
+            "departments": departments,
+            "status": "Human Verification Required",
+            "message": "Multiple issues were detected, but department routing needs manual verification."
+        })
 
     # -----------------------------------
-    # SINGLE-DEPARTMENT COMPLAINT
+    # STEP 3: Single-department complaint
     # -----------------------------------
 
     prediction = single_model.predict([complaint])[0]
 
-
-    # Decision scores
+    # Get decision scores
     scores = single_model.decision_function([complaint])[0]
 
-
-    # Highest score
-    max_score = max(scores)
-
-
-    # Second highest score
+    # Calculate confidence margin
     sorted_scores = sorted(scores, reverse=True)
 
-    second_highest_score = sorted_scores[1]
+    if len(sorted_scores) < 2:
+        return jsonify({
+            "complaint": complaint,
+            "complaint_type": "Single-Department",
+            "departments": [prediction],
+            "status": "Human Verification Required",
+            "message": "Insufficient prediction scores. Manual review is required."
+        })
 
+    margin = sorted_scores[0] - sorted_scores[1]
 
-    # Confidence margin
-    margin = max_score - second_highest_score
-
-
-    # Uncertainty threshold
+    # Uncertainty threshold (demo threshold; requires evaluation)
     threshold = 0.3
 
-
     if margin >= threshold:
-
         status = "Auto Routed"
-
     else:
-
         status = "Human Verification Required"
-
 
     return jsonify({
         "complaint": complaint,
