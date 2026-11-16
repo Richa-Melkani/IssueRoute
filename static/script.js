@@ -4,7 +4,38 @@ const complaintInput = document.getElementById("complaint");
 const result = document.getElementById("result");
 const submitBtn = document.getElementById("submitBtn");
 
+const testComplaints = document.getElementById("testComplaints");
+const useTestBtn = document.getElementById("useTestBtn");
 
+
+// Use selected testing complaint
+useTestBtn.addEventListener("click", function () {
+
+    const start = testComplaints.selectionStart;
+    const end = testComplaints.selectionEnd;
+
+    let selectedComplaint = testComplaints.value
+        .substring(start, end)
+        .trim();
+
+    // If no text is selected, use all the text
+    if (!selectedComplaint) {
+        selectedComplaint = testComplaints.value.trim();
+    }
+
+    if (!selectedComplaint) {
+        alert("Please enter a testing complaint first.");
+        return;
+    }
+
+    complaintInput.value = selectedComplaint;
+
+    complaintInput.focus();
+
+});
+
+
+// Submit complaint
 complaintForm.addEventListener("submit", async function (event) {
 
     event.preventDefault();
@@ -16,12 +47,11 @@ complaintForm.addEventListener("submit", async function (event) {
         return;
     }
 
-    // Show loading state
     result.hidden = false;
     result.replaceChildren();
 
     const loading = document.createElement("p");
-    loading.textContent = "Submitting your complaint...";
+    loading.textContent = "Processing your complaint...";
     result.appendChild(loading);
 
     submitBtn.disabled = true;
@@ -81,7 +111,10 @@ function displayResult(data) {
 
     result.appendChild(heading);
 
-    addResultRow("Complaint Type", data.complaint_type || "Not available");
+    addResultRow(
+        "Complaint Type",
+        data.complaint_type || "Not available"
+    );
 
     addResultRow(
         "Department(s)",
@@ -90,17 +123,23 @@ function displayResult(data) {
             : "Not assigned"
     );
 
-    addResultRow("Status", data.status || "Not available");
+    addResultRow(
+        "Status",
+        data.status || "Not available"
+    );
 
     if (data.margin !== undefined) {
         addResultRow("Confidence Margin", data.margin);
     }
 
     if (data.message) {
+
         const message = document.createElement("p");
         message.className = "result-message";
         message.textContent = data.message;
+
         result.appendChild(message);
+
     }
 
     const status = document.createElement("span");
@@ -112,7 +151,7 @@ function displayResult(data) {
 }
 
 
-// Add a result row safely
+// Add result row
 function addResultRow(label, value) {
 
     const row = document.createElement("p");
