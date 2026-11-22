@@ -1,0 +1,60 @@
+text,actual,predicted,correct,complaint_type,language,secondary_department
+There is a water leakage in my hostel bathroom and the washroom needs urgent repair.,Hostels,Maintenance,False,multi,English,Maintenance
+The online attendance portal is not opening.,IT Support,Maintenance,False,single,English,
+My course registration page shows an error.,IT Support,Academics,False,single,English,
+The classroom timetable has conflicting lecture timings.,Academics,Maintenance,False,single,English,
+The hostel room light is not working.,Hostels,Maintenance,False,single,English,
+The campus lift is not working.,Maintenance,Transport,False,single,English,
+The washroom plumbing needs repair.,Maintenance,Hostels,False,single,English,
+I was charged an incorrect examination fee.,Fees / Finance,Academics,False,single,English,
+My student ID card has not been issued.,Administration,Transport,False,single,English,
+A student is repeatedly violating hostel rules.,Security / Discipline,Hostels,False,single,English,
+Hostel water supply is not working and my semester fee payment is also failing.,Hostels,Fees / Finance,False,multi,English,Fees / Finance
+I cannot access the hostel Wi-Fi and my hostel room light is damaged.,IT Support,Hostels,False,multi,English,Hostels
+My examination schedule is incorrect and my examination fee has been charged twice.,Academics,Fees / Finance,False,multi,English,Fees / Finance
+The classroom fan is broken and the lecture timetable has conflicting timings.,Maintenance,Academics,False,multi,English,Academics
+There is water leakage in my hostel bathroom and the hostel room allocation is incorrect.,Maintenance,Hostels,False,multi,English,Hostels
+Hostel bathroom mein leakage hai aur room allotment mein bhi problem hai.,Maintenance,Hostels,False,multi,Hinglish,Hostels
+मेरे परीक्षा अंक दिखाई नहीं दे रहे हैं और पोर्टल में भी समस्या है।,Academics,Hostels,False,multi,Hindi,IT Support
+हॉस्टल के बाथरूम में पानी की लीकेज है और कमरे का आवंटन भी गलत है।,Maintenance,Hostels,False,multi,Hindi,Hostels
+Where can I find information about student exchange opportunities?,Unknown,Administration,False,unknown,English,
+I want to participate in an inter-university competition.,Unknown,IT Support,False,unknown,English,
+How can I apply for a student leadership program?,Unknown,Administration,False,unknown,English,
+Mujhe student exchange program ke baare mein information chahiye.,Unknown,Administration,False,unknown,Hinglish,
+छात्रों के लिए एक्सचेंज प्रोग्राम की जानकारी कहाँ मिलेगी?,Unknown,Academics,False,unknown,Hindi,
+छात्र नेतृत्व कार्यक्रम के लिए आवेदन कैसे करें?,Unknown,Administration,False,unknown,Hindi,
+Mere laptop mein university portal open nahi ho raha.,IT Support,Academics,False,single,Hinglish,
+Student portal mein login karne mein problem aa rahi hai.,IT Support,Unknown,False,single,Hinglish,
+स्टूडेंट पोर्टल में लॉगिन करने में समस्या हो रही है।,IT Support,Hostels,False,single,Hindi,
+Course registration mein subject select nahi ho raha.,Academics,IT Support,False,single,Hinglish,
+मेरे आंतरिक अंक पोर्टल पर दिखाई नहीं दे रहे हैं।,Academics,IT Support,False,single,Hindi,
+असाइनमेंट का परिणाम अभी तक अपलोड नहीं किया गया है।,Academics,Fees / Finance,False,single,Hindi,
+मुझे अपने पाठ्यक्रम के बारे में जानकारी चाहिए।,Academics,Fees / Finance,False,single,Hindi,
+कक्षा की समय सारणी में दो विषयों का समय एक ही है।,Academics,Maintenance,False,single,Hindi,
+मेरी सेमेस्टर फीस का भुगतान असफल हो गया।,Fees / Finance,Maintenance,False,single,Hindi,
+मुझे अपनी फीस वापसी की जानकारी चाहिए।,Fees / Finance,Academics,False,single,Hindi,
+Hostel mein paani nahi aa raha aur campus Wi-Fi bhi kaam nahi kar raha.,Hostels,IT Support,False,multi,Hinglish,IT Support
+I cannot access the student portal and my exam timetable is missing.,IT Support,Academics,False,multi,English,Academics
+Student portal login nahi ho raha aur exam timetable bhi show nahi ho raha.,IT Support,Academics,False,multi,Hinglish,Academics
+Hostel corridor ki light kharab hai aur raat mein security bhi nahi hoti.,Maintenance,Hostels,False,multi,Hinglish,Security / Discipline
+Exam timetable mein mistake hai aur examination portal bhi access nahi ho raha.,Academics,IT Support,False,multi,Hinglish,IT Support
+मेरी सेमेस्टर फीस जमा नहीं हो रही है और पाठ्यक्रम पंजीकरण भी बंद है।,Fees / Finance,IT Support,False,multi,Hindi,Academics
+हॉस्टल में पानी नहीं आ रहा है और बाथरूम की मरम्मत भी चाहिए।,Hostels,Maintenance,False,multi,Hindi,Maintenance
+स्टूडेंट पोर्टल में लॉगिन नहीं हो रहा और परीक्षा की समय सारणी भी नहीं दिख रही।,IT Support,Academics,False,multi,Hindi,Academics
+कैंपस का वाई-फाई बंद है और कंप्यूटर लैब का उपकरण भी खराब है।,IT Support,Maintenance,False,multi,Hindi,Maintenance
+कक्षा का प्रोजेक्टर खराब है और पाठ्यक्रम पंजीकरण भी पूरा नहीं हो रहा है।,Maintenance,Fees / Finance,False,multi,Hindi,Academics
+Meri ID card application ka status check karna hai.,Administration,Transport,False,single,Hinglish,
+मेरे विश्वविद्यालय रिकॉर्ड में मेरा नाम गलत है।,Administration,IT Support,False,single,Hindi,
+मुझे छात्र पहचान पत्र के लिए आवेदन करना है।,Administration,Unknown,False,single,Hindi,
+कैंपस में छात्रों के बीच झगड़ा हुआ है।,Security / Discipline,Fees / Finance,False,single,Hindi,
+कॉलेज की पार्किंग से मेरी साइकिल चोरी हो गई है।,Security / Discipline,Maintenance,False,single,Hindi,
+The library air conditioner is not cooling the room.,Maintenance,Hostels,False,single,English,
+प्रयोगशाला में पानी का नल लगातार लीक हो रहा है।,Maintenance,IT Support,False,single,Hindi,
+कैंपस का पानी का कूलर खराब है।,Maintenance,IT Support,False,single,Hindi,
+सीढ़ियों की रेलिंग ढीली हो गई है।,Maintenance,Fees / Finance,False,single,Hindi,
+My university profile contains the wrong phone number.,Administration,IT Support,False,single,English,
+Where should I submit a request for a change of personal details?,Administration,Hostels,False,single,English,
+मुझे अपने व्यक्तिगत विवरण में बदलाव करना है।,Administration,Fees / Finance,False,single,Hindi,
+मैं अपना आपातकालीन संपर्क नंबर अपडेट करना चाहता हूँ।,Administration,Fees / Finance,False,single,Hindi,
+कैंपस के प्रतिबंधित क्षेत्र में कोई व्यक्ति बिना अनुमति के प्रवेश कर रहा था।,Security / Discipline,Unknown,False,single,Hindi,
+एक छात्र दूसरे छात्र को परेशान कर रहा है।,Security / Discipline,Academics,False,single,Hindi,

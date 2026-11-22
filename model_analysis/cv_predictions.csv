@@ -1,0 +1,262 @@
+text,actual,predicted,correct
+My hostel room fan is not working.,Hostels,Hostels,True
+I cannot access my university email account.,IT Support,IT Support,True
+My semester fee payment was deducted but the portal still shows unpaid.,Fees / Finance,Fees / Finance,True
+The college bus is arriving very late every morning.,Transport,Transport,True
+There is a water leakage in my hostel bathroom and the washroom needs urgent repair.,Hostels,Maintenance,False
+मेरे हॉस्टल में पानी की समस्या है और मेरी फीस का भुगतान भी नहीं हो रहा है।,Hostels,Hostels,True
+Mere hostel room ka fan kharab hai.,Hostels,Hostels,True
+College Wi-Fi is not working in the computer lab.,IT Support,IT Support,True
+The bus driver was rude and the bus is also regularly arriving late.,Transport,Transport,True
+I want to organize a photography club event but I do not know which department handles student clubs.,Unknown,Unknown,True
+Wi-Fi is not working in the library.,IT Support,IT Support,True
+The online attendance portal is not opening.,IT Support,Maintenance,False
+My course registration page shows an error.,IT Support,Academics,False
+I cannot reset my university password.,IT Support,IT Support,True
+The computer lab system is not connecting to the internet.,IT Support,IT Support,True
+The updated syllabus has not been provided for my course.,Academics,Academics,True
+I have not received feedback for my assignment.,Academics,Academics,True
+The classroom timetable has conflicting lecture timings.,Academics,Maintenance,False
+My internal marks are not visible on the student portal.,Academics,Academics,True
+I need clarification about my course examination schedule.,Academics,Academics,True
+My hostel bed is damaged.,Hostels,Hostels,True
+The hostel room light is not working.,Hostels,Maintenance,False
+I have not received my hostel room allocation.,Hostels,Hostels,True
+The hostel mess menu is not being followed.,Hostels,Hostels,True
+The hostel water supply is unavailable.,Hostels,Hostels,True
+There is a broken window in my classroom.,Maintenance,Maintenance,True
+The ceiling fan in the lecture hall is damaged.,Maintenance,Maintenance,True
+There is water leakage in the academic building.,Maintenance,Maintenance,True
+The campus lift is not working.,Maintenance,Transport,False
+The washroom plumbing needs repair.,Maintenance,Hostels,False
+My tuition fee payment has failed.,Fees / Finance,Fees / Finance,True
+I was charged an incorrect examination fee.,Fees / Finance,Academics,False
+My fee refund has not been processed.,Fees / Finance,Fees / Finance,True
+The scholarship amount is not reflected in my account.,Fees / Finance,Fees / Finance,True
+I need help with my semester fee receipt.,Fees / Finance,Fees / Finance,True
+The college bus did not stop at my designated location.,Transport,Transport,True
+My bus pass is not being accepted.,Transport,Transport,True
+The college bus route has changed without notice.,Transport,Transport,True
+The campus shuttle is overcrowded.,Transport,Transport,True
+The bus schedule is not displayed correctly.,Transport,Transport,True
+My student ID card has not been issued.,Administration,Transport,False
+I need a duplicate copy of my admission document.,Administration,Administration,True
+My name is incorrect on the university record.,Administration,Administration,True
+I need an official student certificate.,Administration,Administration,True
+My academic record has not been updated.,Administration,Administration,True
+Someone stole my bicycle from the campus parking area.,Security / Discipline,Security / Discipline,True
+A student is repeatedly violating hostel rules.,Security / Discipline,Hostels,False
+There was an unauthorized person inside the campus.,Security / Discipline,Security / Discipline,True
+I want to report harassment by another student.,Security / Discipline,Security / Discipline,True
+The campus parking area has a serious security problem.,Security / Discipline,Security / Discipline,True
+Hostel water supply is not working and my semester fee payment is also failing.,Hostels,Fees / Finance,False
+The hostel room has a broken window and my room fan is also not working.,Hostels,Hostels,True
+I cannot access the hostel Wi-Fi and my hostel room light is damaged.,IT Support,Hostels,False
+The college bus is always late and the driver behaves rudely with students.,Transport,Transport,True
+My bus pass is not working and my student ID card has also not been issued.,Transport,Transport,True
+My examination schedule is incorrect and my examination fee has been charged twice.,Academics,Fees / Finance,False
+My internal marks are missing and the student portal is also showing an error.,Academics,Academics,True
+The classroom fan is broken and the lecture timetable has conflicting timings.,Maintenance,Academics,False
+There is water leakage in my hostel bathroom and the hostel room allocation is incorrect.,Maintenance,Hostels,False
+I cannot access my university email and my course registration is also showing an error.,IT Support,IT Support,True
+Mere hostel mein paani nahi aa raha hai aur meri semester fee bhi submit nahi ho rahi.,Hostels,Hostels,True
+Mere hostel room ka fan kharab hai aur window bhi toot gayi hai.,Hostels,Hostels,True
+College bus bahut late aati hai aur driver students ke saath rude behave karta hai.,Transport,Transport,True
+Mere internal marks show nahi ho rahe aur student portal bhi open nahi ho raha.,Academics,Academics,True
+Hostel bathroom mein leakage hai aur room allotment mein bhi problem hai.,Maintenance,Hostels,False
+मेरे परीक्षा अंक दिखाई नहीं दे रहे हैं और पोर्टल में भी समस्या है।,Academics,Hostels,False
+बस बहुत देर से आती है और ड्राइवर छात्रों के साथ गलत व्यवहार करता है।,Transport,Transport,True
+कक्षा का पंखा खराब है और टाइमटेबल में भी समस्या है।,Maintenance,Maintenance,True
+हॉस्टल के बाथरूम में पानी की लीकेज है और कमरे का आवंटन भी गलत है।,Maintenance,Hostels,False
+How can I start a student photography club?,Unknown,Unknown,True
+I want to organize a cultural festival for students.,Unknown,Unknown,True
+Where can students register for a debate competition?,Unknown,Unknown,True
+Can students get permission to organize a music event?,Unknown,Unknown,True
+I want information about joining a student sports club.,Unknown,Unknown,True
+How can I volunteer for a community service activity?,Unknown,Unknown,True
+Where can I find information about student exchange opportunities?,Unknown,Administration,False
+I want to participate in an inter-university competition.,Unknown,IT Support,False
+How can I apply for a student leadership program?,Unknown,Administration,False
+Is there a photography workshop available for students?,Unknown,Unknown,True
+"Mujhe photography club join karna hai, process kya hai?",Unknown,Unknown,True
+"Main college cultural event organize karna chahta hoon, permission kaise milegi?",Unknown,Unknown,True
+Mujhe student exchange program ke baare mein information chahiye.,Unknown,Administration,False
+Debate competition mein participate karne ke liye registration kaise karu?,Unknown,Unknown,True
+मैं कॉलेज के म्यूजिक क्लब में शामिल होना चाहता हूँ।,Unknown,Unknown,True
+मैं एक सांस्कृतिक कार्यक्रम आयोजित करना चाहता हूँ।,Unknown,Unknown,True
+छात्रों के लिए एक्सचेंज प्रोग्राम की जानकारी कहाँ मिलेगी?,Unknown,Academics,False
+मैं कॉलेज की खेल प्रतियोगिता में भाग लेना चाहता हूँ।,Unknown,Unknown,True
+छात्र नेतृत्व कार्यक्रम के लिए आवेदन कैसे करें?,Unknown,Administration,False
+Hostel mein room change ke liye request kaise submit karun?,Hostels,Hostels,True
+Mere hostel room mein AC kaam nahi kar raha hai.,Hostels,Hostels,True
+Hostel mess mein khana time par nahi milta.,Hostels,Hostels,True
+Mere hostel room ki window properly lock nahi ho rahi.,Hostels,Hostels,True
+Hostel mein hot water available nahi hai.,Hostels,Hostels,True
+मेरे हॉस्टल के कमरे में बिजली नहीं आ रही है।,Hostels,Hostels,True
+हॉस्टल मेस में खाने की गुणवत्ता बहुत खराब है।,Hostels,Hostels,True
+मुझे हॉस्टल में कमरा बदलना है।,Hostels,Hostels,True
+मेरे हॉस्टल के कमरे का दरवाज़ा ठीक से बंद नहीं होता।,Hostels,Hostels,True
+हॉस्टल में गर्म पानी की सुविधा काम नहीं कर रही है।,Hostels,Hostels,True
+Mere laptop mein university portal open nahi ho raha.,IT Support,Academics,False
+College Wi-Fi baar baar disconnect ho raha hai.,IT Support,IT Support,True
+Mera university email password reset nahi ho raha.,IT Support,IT Support,True
+Student portal mein login karne mein problem aa rahi hai.,IT Support,Unknown,False
+Computer lab ka internet kaam nahi kar raha.,IT Support,IT Support,True
+मेरे विश्वविद्यालय के ईमेल में लॉगिन नहीं हो रहा है।,IT Support,IT Support,True
+कॉलेज का वाई-फाई बार-बार बंद हो रहा है।,IT Support,IT Support,True
+स्टूडेंट पोर्टल में लॉगिन करने में समस्या हो रही है।,IT Support,Hostels,False
+कंप्यूटर लैब में इंटरनेट काम नहीं कर रहा है।,IT Support,IT Support,True
+मेरा पासवर्ड रीसेट नहीं हो रहा है।,IT Support,IT Support,True
+Mere internal marks portal par show nahi ho rahe.,Academics,Academics,True
+Course registration mein subject select nahi ho raha.,Academics,IT Support,False
+Exam timetable mein mera paper missing hai.,Academics,Academics,True
+Professor ne assignment ka result upload nahi kiya.,Academics,Academics,True
+Mujhe course syllabus ke baare mein clarification chahiye.,Academics,Academics,True
+मेरे आंतरिक अंक पोर्टल पर दिखाई नहीं दे रहे हैं।,Academics,IT Support,False
+परीक्षा की समय सारणी में मेरे विषय की जानकारी नहीं है।,Academics,Academics,True
+असाइनमेंट का परिणाम अभी तक अपलोड नहीं किया गया है।,Academics,Fees / Finance,False
+मुझे अपने पाठ्यक्रम के बारे में जानकारी चाहिए।,Academics,Fees / Finance,False
+कक्षा की समय सारणी में दो विषयों का समय एक ही है।,Academics,Maintenance,False
+Meri semester fee payment fail ho gayi.,Fees / Finance,Fees / Finance,True
+Fee receipt abhi tak generate nahi hui.,Fees / Finance,Fees / Finance,True
+Mere account se fee amount do baar deduct ho gaya.,Fees / Finance,Fees / Finance,True
+Scholarship amount account mein credit nahi hua.,Fees / Finance,Fees / Finance,True
+Mujhe fee refund ka status check karna hai.,Fees / Finance,Fees / Finance,True
+मेरी सेमेस्टर फीस का भुगतान असफल हो गया।,Fees / Finance,Maintenance,False
+फीस की रसीद अभी तक प्राप्त नहीं हुई है।,Fees / Finance,Fees / Finance,True
+मेरे खाते से फीस की राशि दो बार कट गई।,Fees / Finance,Fees / Finance,True
+छात्रवृत्ति की राशि अभी तक खाते में नहीं आई है।,Fees / Finance,Fees / Finance,True
+मुझे अपनी फीस वापसी की जानकारी चाहिए।,Fees / Finance,Academics,False
+Mere bus pass mein problem aa rahi hai.,Transport,Transport,True
+College bus ka timing regularly change ho raha hai.,Transport,Transport,True
+Bus mere stop par nahi rukti.,Transport,Transport,True
+Campus shuttle mein seats available nahi hoti.,Transport,Transport,True
+Bus route ke baare mein information chahiye.,Transport,Transport,True
+कॉलेज बस मेरे निर्धारित स्टॉप पर नहीं रुकती।,Transport,Transport,True
+बस का समय बार-बार बदल रहा है।,Transport,Transport,True
+कैंपस बस में बैठने के लिए पर्याप्त सीटें नहीं हैं।,Transport,Transport,True
+मुझे बस के नए मार्ग की जानकारी चाहिए।,Transport,Transport,True
+कॉलेज बस का पास काम नहीं कर रहा है।,Transport,Transport,True
+Hostel mein paani nahi aa raha aur campus Wi-Fi bhi kaam nahi kar raha.,Hostels,IT Support,False
+My hostel room fan is broken and my college email is not working.,Hostels,Hostels,True
+My semester fee payment failed and I cannot register for my courses.,Fees / Finance,Fees / Finance,True
+The college bus is always late and the driver behaves rudely.,Transport,Transport,True
+My hostel room has no water supply and the washroom needs repair.,Hostels,Hostels,True
+I cannot access the student portal and my exam timetable is missing.,IT Support,Academics,False
+My scholarship has not been credited and my fee receipt is missing.,Fees / Finance,Fees / Finance,True
+The hostel corridor light is broken and there is no security guard nearby.,Maintenance,Maintenance,True
+The bus route has changed and I need to update my student records.,Transport,Transport,True
+My assignment marks are missing and the academic portal is not loading.,Academics,Academics,True
+The hostel mess food is poor and I want to report a hygiene issue.,Hostels,Hostels,True
+My fee refund is pending and my bank details need to be updated.,Fees / Finance,Fees / Finance,True
+The campus Wi-Fi is down and the computer lab equipment is damaged.,IT Support,IT Support,True
+My bus pass is not working and my student ID card is damaged.,Transport,Transport,True
+The classroom projector is broken and my course registration is incomplete.,Maintenance,Maintenance,True
+My hostel room door lock is broken and I feel unsafe at night.,Hostels,Hostels,True
+The exam timetable has an error and the examination portal is inaccessible.,Academics,Academics,True
+My fee payment was deducted twice and the student portal shows the wrong balance.,Fees / Finance,Fees / Finance,True
+The hostel has a water problem and the maintenance request has not been addressed.,Hostels,Hostels,True
+The college bus is overcrowded and students are arguing with the driver.,Transport,Transport,True
+I cannot access my university email and I need to submit an assignment today.,IT Support,IT Support,True
+Mere hostel room mein fan kharab hai aur Wi-Fi bhi nahi chal raha.,Hostels,Hostels,True
+Meri semester fee fail ho gayi aur course registration bhi nahi ho rahi.,Fees / Finance,Fees / Finance,True
+College bus late aati hai aur driver students se rudely baat karta hai.,Transport,Transport,True
+Hostel mein paani nahi aa raha aur bathroom repair ki zarurat hai.,Hostels,Hostels,True
+Student portal login nahi ho raha aur exam timetable bhi show nahi ho raha.,IT Support,Academics,False
+Scholarship nahi mili aur fee receipt bhi generate nahi hui.,Fees / Finance,Fees / Finance,True
+Hostel corridor ki light kharab hai aur raat mein security bhi nahi hoti.,Maintenance,Hostels,False
+Bus route change ho gaya hai aur student records mein bhi update chahiye.,Transport,Transport,True
+Assignment marks update nahi hue aur academic portal bhi open nahi ho raha.,Academics,Academics,True
+Hostel mess ka food kharab hai aur hygiene ki complaint bhi karni hai.,Hostels,Hostels,True
+Fee refund pending hai aur bank details update karwani hain.,Fees / Finance,Fees / Finance,True
+Campus Wi-Fi down hai aur computer lab ka equipment bhi damaged hai.,IT Support,IT Support,True
+Bus pass kaam nahi kar raha aur student ID card bhi damage ho gaya hai.,Transport,Transport,True
+Classroom projector kharab hai aur course registration complete nahi ho rahi.,Maintenance,Maintenance,True
+Hostel room ka lock kharab hai aur raat mein safety ka issue hai.,Hostels,Hostels,True
+Exam timetable mein mistake hai aur examination portal bhi access nahi ho raha.,Academics,IT Support,False
+Fee do baar deduct ho gayi aur portal par wrong balance show ho raha hai.,Fees / Finance,Fees / Finance,True
+Hostel mein water problem hai aur maintenance request bhi solve nahi hui.,Hostels,Hostels,True
+College bus bahut crowded hai aur driver se students ki argument ho rahi hai.,Transport,Transport,True
+University email access nahi ho raha aur mujhe assignment submit karna hai.,IT Support,IT Support,True
+मेरे हॉस्टल के कमरे में पंखा खराब है और इंटरनेट भी काम नहीं कर रहा है।,Hostels,Hostels,True
+मेरी सेमेस्टर फीस जमा नहीं हो रही है और पाठ्यक्रम पंजीकरण भी बंद है।,Fees / Finance,IT Support,False
+कॉलेज बस देर से आती है और ड्राइवर छात्रों से बदतमीजी करता है।,Transport,Transport,True
+हॉस्टल में पानी नहीं आ रहा है और बाथरूम की मरम्मत भी चाहिए।,Hostels,Maintenance,False
+स्टूडेंट पोर्टल में लॉगिन नहीं हो रहा और परीक्षा की समय सारणी भी नहीं दिख रही।,IT Support,Academics,False
+छात्रवृत्ति की राशि नहीं मिली और फीस की रसीद भी नहीं मिली।,Fees / Finance,Fees / Finance,True
+हॉस्टल की गलियारे की लाइट खराब है और रात में सुरक्षा भी नहीं है।,Maintenance,Maintenance,True
+बस का मार्ग बदल गया है और मेरे छात्र रिकॉर्ड में भी बदलाव करना है।,Transport,Transport,True
+मेरे असाइनमेंट के अंक नहीं दिख रहे और अकादमिक पोर्टल भी नहीं खुल रहा है।,Academics,Academics,True
+हॉस्टल के खाने की गुणवत्ता खराब है और स्वच्छता की शिकायत भी है।,Hostels,Hostels,True
+फीस वापसी लंबित है और बैंक की जानकारी भी अपडेट करनी है।,Fees / Finance,Fees / Finance,True
+कैंपस का वाई-फाई बंद है और कंप्यूटर लैब का उपकरण भी खराब है।,IT Support,Maintenance,False
+बस पास काम नहीं कर रहा और मेरा छात्र पहचान पत्र भी खराब हो गया है।,Transport,Transport,True
+कक्षा का प्रोजेक्टर खराब है और पाठ्यक्रम पंजीकरण भी पूरा नहीं हो रहा है।,Maintenance,Fees / Finance,False
+हॉस्टल के कमरे का ताला खराब है और रात में सुरक्षा को लेकर समस्या है।,Hostels,Hostels,True
+परीक्षा की समय सारणी में गलती है और परीक्षा पोर्टल भी नहीं खुल रहा है।,Academics,Academics,True
+फीस की राशि दो बार कट गई और पोर्टल पर गलत बैलेंस दिख रहा है।,Fees / Finance,Fees / Finance,True
+हॉस्टल में पानी की समस्या है और रखरखाव की शिकायत भी हल नहीं हुई है।,Hostels,Hostels,True
+कॉलेज बस बहुत भरी रहती है और ड्राइवर से छात्रों की बहस हो रही है।,Transport,Transport,True
+विश्वविद्यालय की ईमेल सेवा नहीं खुल रही और मुझे असाइनमेंट जमा करना है।,IT Support,IT Support,True
+How can I update my student registration details?,Administration,Administration,True
+I need a correction in my student name on the university records.,Administration,Administration,True
+Where can I get an official enrollment certificate?,Administration,Administration,True
+I want to apply for a student identity card.,Administration,Administration,True
+My student record has an incorrect date of birth.,Administration,Administration,True
+Mujhe apne student records mein address update karwana hai.,Administration,Administration,True
+Meri ID card application ka status check karna hai.,Administration,Transport,False
+University se official bonafide certificate kaise milega?,Administration,Administration,True
+मेरे विश्वविद्यालय रिकॉर्ड में मेरा नाम गलत है।,Administration,IT Support,False
+मुझे छात्र पहचान पत्र के लिए आवेदन करना है।,Administration,Unknown,False
+Someone damaged my bicycle in the campus parking area.,Security / Discipline,Security / Discipline,True
+I want to report a student threatening others on campus.,Security / Discipline,Security / Discipline,True
+There was an argument between students near the library.,Security / Discipline,Security / Discipline,True
+My bicycle was stolen from the college parking area.,Security / Discipline,Security / Discipline,True
+I want to report unauthorized entry into a restricted campus area.,Security / Discipline,Security / Discipline,True
+Campus mein students ke beech fight ho rahi hai.,Security / Discipline,Security / Discipline,True
+Meri cycle campus parking se chori ho gayi hai.,Security / Discipline,Security / Discipline,True
+Ek student dusre students ko repeatedly threaten kar raha hai.,Security / Discipline,Security / Discipline,True
+कैंपस में छात्रों के बीच झगड़ा हुआ है।,Security / Discipline,Fees / Finance,False
+कॉलेज की पार्किंग से मेरी साइकिल चोरी हो गई है।,Security / Discipline,Maintenance,False
+The classroom ceiling fan is making a loud noise.,Maintenance,Maintenance,True
+The corridor floor is damaged and needs repair.,Maintenance,Maintenance,True
+The laboratory sink is leaking continuously.,Maintenance,Maintenance,True
+The classroom lights are not working properly.,Maintenance,Maintenance,True
+The library air conditioner is not cooling the room.,Maintenance,Hostels,False
+The college washroom tap is broken.,Maintenance,Maintenance,True
+There is water leakage from the classroom ceiling.,Maintenance,Maintenance,True
+The campus drinking water cooler is not working.,Maintenance,Maintenance,True
+The staircase handrail is loose and needs repair.,Maintenance,Maintenance,True
+The classroom door handle is broken.,Maintenance,Maintenance,True
+College ke corridor ki light kaam nahi kar rahi.,Maintenance,Maintenance,True
+Classroom mein ceiling se paani leak ho raha hai.,Maintenance,Maintenance,True
+Campus ka water cooler kharab hai.,Maintenance,Maintenance,True
+Lab ka sink leak kar raha hai.,Maintenance,Maintenance,True
+कक्षा की लाइट ठीक से काम नहीं कर रही है।,Maintenance,Maintenance,True
+कॉलेज के गलियारे का फर्श टूट गया है।,Maintenance,Maintenance,True
+प्रयोगशाला में पानी का नल लगातार लीक हो रहा है।,Maintenance,IT Support,False
+कैंपस का पानी का कूलर खराब है।,Maintenance,IT Support,False
+सीढ़ियों की रेलिंग ढीली हो गई है।,Maintenance,Fees / Finance,False
+How can I request a correction in my academic record?,Administration,Administration,True
+Where can I obtain an official student enrollment letter?,Administration,Administration,True
+I need to update my emergency contact information.,Administration,Administration,True
+How can I request a duplicate student identity card?,Administration,Administration,True
+My university profile contains the wrong phone number.,Administration,IT Support,False
+I need an official certificate confirming my student status.,Administration,Administration,True
+Where should I submit a request for a change of personal details?,Administration,Hostels,False
+Mujhe apne university record mein phone number update karna hai.,Administration,Administration,True
+Duplicate student ID card ke liye apply kaise karun?,Administration,Administration,True
+Mujhe official enrollment certificate chahiye.,Administration,Administration,True
+मेरे छात्र रिकॉर्ड में मेरा पता गलत दर्ज है।,Administration,Administration,True
+मुझे अपने व्यक्तिगत विवरण में बदलाव करना है।,Administration,Fees / Finance,False
+मुझे छात्र होने का आधिकारिक प्रमाण पत्र चाहिए।,Administration,Administration,True
+मैं अपना आपातकालीन संपर्क नंबर अपडेट करना चाहता हूँ।,Administration,Fees / Finance,False
+Someone entered the restricted laboratory without permission.,Security / Discipline,Security / Discipline,True
+A student damaged college property intentionally.,Security / Discipline,Security / Discipline,True
+There was a physical fight between two students.,Security / Discipline,Security / Discipline,True
+I saw someone attempting to enter the campus without authorization.,Security / Discipline,Security / Discipline,True
+Students are smoking in a prohibited campus area.,Security / Discipline,Security / Discipline,True
+Ek student college property ko jaan-bujhkar damage kar raha hai.,Security / Discipline,Security / Discipline,True
+Campus mein do students ke beech fight hui hai.,Security / Discipline,Security / Discipline,True
+कैंपस के प्रतिबंधित क्षेत्र में कोई व्यक्ति बिना अनुमति के प्रवेश कर रहा था।,Security / Discipline,Unknown,False
+एक छात्र दूसरे छात्र को परेशान कर रहा है।,Security / Discipline,Academics,False

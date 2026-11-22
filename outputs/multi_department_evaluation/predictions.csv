@@ -1,0 +1,84 @@
+Complaint,Actual Departments,Predicted Departments
+There is a water leakage in my hostel bathroom and the washroom needs urgent repair.,Hostels; Maintenance,Hostels; Maintenance
+मेरे हॉस्टल में पानी की समस्या है और मेरी फीस का भुगतान भी नहीं हो रहा है।,Fees / Finance; Hostels,Academics; IT Support
+The bus driver was rude and the bus is also regularly arriving late.,Security / Discipline; Transport,Transport
+Hostel water supply is not working and my semester fee payment is also failing.,Fees / Finance; Hostels,
+The hostel room has a broken window and my room fan is also not working.,Hostels; Maintenance,Hostels
+I cannot access the hostel Wi-Fi and my hostel room light is damaged.,Hostels; IT Support,Hostels; IT Support
+The college bus is always late and the driver behaves rudely with students.,Security / Discipline; Transport,Security / Discipline; Transport
+My bus pass is not working and my student ID card has also not been issued.,Administration; Transport,Administration; Transport
+My examination schedule is incorrect and my examination fee has been charged twice.,Academics; Fees / Finance,Fees / Finance
+My internal marks are missing and the student portal is also showing an error.,Academics; IT Support,Academics; IT Support
+The classroom fan is broken and the lecture timetable has conflicting timings.,Academics; Maintenance,Maintenance
+There is water leakage in my hostel bathroom and the hostel room allocation is incorrect.,Hostels; Maintenance,Hostels; Maintenance
+I cannot access my university email and my course registration is also showing an error.,Academics; IT Support,Academics; IT Support
+Mere hostel mein paani nahi aa raha hai aur meri semester fee bhi submit nahi ho rahi.,Fees / Finance; Hostels,Hostels
+Mere hostel room ka fan kharab hai aur window bhi toot gayi hai.,Hostels; Maintenance,Hostels
+College bus bahut late aati hai aur driver students ke saath rude behave karta hai.,Security / Discipline; Transport,Security / Discipline; Transport
+Mere internal marks show nahi ho rahe aur student portal bhi open nahi ho raha.,Academics; IT Support,Academics; IT Support
+Hostel bathroom mein leakage hai aur room allotment mein bhi problem hai.,Hostels; Maintenance,Hostels; Maintenance
+मेरे परीक्षा अंक दिखाई नहीं दे रहे हैं और पोर्टल में भी समस्या है।,Academics; IT Support,Fees / Finance; IT Support
+बस बहुत देर से आती है और ड्राइवर छात्रों के साथ गलत व्यवहार करता है।,Security / Discipline; Transport,Security / Discipline; Transport
+कक्षा का पंखा खराब है और टाइमटेबल में भी समस्या है।,Academics; Maintenance,Maintenance
+हॉस्टल के बाथरूम में पानी की लीकेज है और कमरे का आवंटन भी गलत है।,Hostels; Maintenance,
+Hostel mein paani nahi aa raha aur campus Wi-Fi bhi kaam nahi kar raha.,Hostels; IT Support,Hostels
+My hostel room fan is broken and my college email is not working.,Hostels; IT Support,Hostels; Maintenance
+My semester fee payment failed and I cannot register for my courses.,Academics; Fees / Finance,Fees / Finance; Hostels
+The college bus is always late and the driver behaves rudely.,Security / Discipline; Transport,Security / Discipline; Transport
+My hostel room has no water supply and the washroom needs repair.,Hostels; Maintenance,Hostels; Maintenance
+I cannot access the student portal and my exam timetable is missing.,Academics; IT Support,Academics; IT Support
+My scholarship has not been credited and my fee receipt is missing.,Administration; Fees / Finance,Fees / Finance
+The hostel corridor light is broken and there is no security guard nearby.,Maintenance; Security / Discipline,Maintenance
+The bus route has changed and I need to update my student records.,Administration; Transport,Transport
+My assignment marks are missing and the academic portal is not loading.,Academics; IT Support,Academics; IT Support
+The hostel mess food is poor and I want to report a hygiene issue.,Hostels; Security / Discipline,Hostels; Security / Discipline
+My fee refund is pending and my bank details need to be updated.,Administration; Fees / Finance,Academics; Fees / Finance
+The campus Wi-Fi is down and the computer lab equipment is damaged.,IT Support; Maintenance,IT Support; Maintenance
+My bus pass is not working and my student ID card is damaged.,Administration; Transport,Administration; Transport
+The classroom projector is broken and my course registration is incomplete.,Academics; Maintenance,Academics; Maintenance
+My hostel room door lock is broken and I feel unsafe at night.,Hostels; Security / Discipline,Hostels; Maintenance
+The exam timetable has an error and the examination portal is inaccessible.,Academics; IT Support,Academics; IT Support
+My fee payment was deducted twice and the student portal shows the wrong balance.,Fees / Finance; IT Support,Fees / Finance
+The hostel has a water problem and the maintenance request has not been addressed.,Hostels; Maintenance,Hostels; Maintenance
+The college bus is overcrowded and students are arguing with the driver.,Security / Discipline; Transport,Security / Discipline; Transport
+I cannot access my university email and I need to submit an assignment today.,Academics; IT Support,Academics; IT Support
+Mere hostel room mein fan kharab hai aur Wi-Fi bhi nahi chal raha.,Hostels; IT Support,Hostels; IT Support; Maintenance
+Meri semester fee fail ho gayi aur course registration bhi nahi ho rahi.,Academics; Fees / Finance,Academics
+College bus late aati hai aur driver students se rudely baat karta hai.,Security / Discipline; Transport,Security / Discipline; Transport
+Hostel mein paani nahi aa raha aur bathroom repair ki zarurat hai.,Hostels; Maintenance,Hostels
+Student portal login nahi ho raha aur exam timetable bhi show nahi ho raha.,Academics; IT Support,Academics; IT Support
+Scholarship nahi mili aur fee receipt bhi generate nahi hui.,Administration; Fees / Finance,Fees / Finance
+Hostel corridor ki light kharab hai aur raat mein security bhi nahi hoti.,Maintenance; Security / Discipline,Hostels; Security / Discipline
+Bus route change ho gaya hai aur student records mein bhi update chahiye.,Administration; Transport,Administration; Transport
+Assignment marks update nahi hue aur academic portal bhi open nahi ho raha.,Academics; IT Support,Academics; IT Support
+Hostel mess ka food kharab hai aur hygiene ki complaint bhi karni hai.,Hostels; Security / Discipline,Hostels; Security / Discipline
+Fee refund pending hai aur bank details update karwani hain.,Administration; Fees / Finance,
+Campus Wi-Fi down hai aur computer lab ka equipment bhi damaged hai.,IT Support; Maintenance,IT Support; Maintenance
+Bus pass kaam nahi kar raha aur student ID card bhi damage ho gaya hai.,Administration; Transport,Administration; Transport
+Classroom projector kharab hai aur course registration complete nahi ho rahi.,Academics; Maintenance,Academics
+Hostel room ka lock kharab hai aur raat mein safety ka issue hai.,Hostels; Security / Discipline,Hostels; Maintenance; Security / Discipline
+Exam timetable mein mistake hai aur examination portal bhi access nahi ho raha.,Academics; IT Support,Academics; IT Support
+Fee do baar deduct ho gayi aur portal par wrong balance show ho raha hai.,Fees / Finance; IT Support,Academics; Fees / Finance; IT Support
+Hostel mein water problem hai aur maintenance request bhi solve nahi hui.,Hostels; Maintenance,Hostels; Maintenance
+College bus bahut crowded hai aur driver se students ki argument ho rahi hai.,Security / Discipline; Transport,Security / Discipline; Transport
+University email access nahi ho raha aur mujhe assignment submit karna hai.,Academics; IT Support,Academics; IT Support
+मेरे हॉस्टल के कमरे में पंखा खराब है और इंटरनेट भी काम नहीं कर रहा है।,Hostels; IT Support,
+मेरी सेमेस्टर फीस जमा नहीं हो रही है और पाठ्यक्रम पंजीकरण भी बंद है।,Academics; Fees / Finance,Academics; Maintenance
+कॉलेज बस देर से आती है और ड्राइवर छात्रों से बदतमीजी करता है।,Security / Discipline; Transport,Security / Discipline; Transport
+हॉस्टल में पानी नहीं आ रहा है और बाथरूम की मरम्मत भी चाहिए।,Hostels; Maintenance,Academics; IT Support
+स्टूडेंट पोर्टल में लॉगिन नहीं हो रहा और परीक्षा की समय सारणी भी नहीं दिख रही।,Academics; IT Support,Academics; IT Support
+छात्रवृत्ति की राशि नहीं मिली और फीस की रसीद भी नहीं मिली।,Administration; Fees / Finance,Academics; IT Support
+हॉस्टल की गलियारे की लाइट खराब है और रात में सुरक्षा भी नहीं है।,Maintenance; Security / Discipline,Hostels; Security / Discipline
+बस का मार्ग बदल गया है और मेरे छात्र रिकॉर्ड में भी बदलाव करना है।,Administration; Transport,
+मेरे असाइनमेंट के अंक नहीं दिख रहे और अकादमिक पोर्टल भी नहीं खुल रहा है।,Academics; IT Support,Academics; IT Support
+हॉस्टल के खाने की गुणवत्ता खराब है और स्वच्छता की शिकायत भी है।,Hostels; Security / Discipline,Hostels; Maintenance
+फीस वापसी लंबित है और बैंक की जानकारी भी अपडेट करनी है।,Administration; Fees / Finance,IT Support; Maintenance
+कैंपस का वाई-फाई बंद है और कंप्यूटर लैब का उपकरण भी खराब है।,IT Support; Maintenance,Administration; Fees / Finance
+बस पास काम नहीं कर रहा और मेरा छात्र पहचान पत्र भी खराब हो गया है।,Administration; Transport,IT Support
+कक्षा का प्रोजेक्टर खराब है और पाठ्यक्रम पंजीकरण भी पूरा नहीं हो रहा है।,Academics; Maintenance,Academics; Fees / Finance
+हॉस्टल के कमरे का ताला खराब है और रात में सुरक्षा को लेकर समस्या है।,Hostels; Security / Discipline,Maintenance; Security / Discipline
+परीक्षा की समय सारणी में गलती है और परीक्षा पोर्टल भी नहीं खुल रहा है।,Academics; IT Support,Academics; IT Support
+फीस की राशि दो बार कट गई और पोर्टल पर गलत बैलेंस दिख रहा है।,Fees / Finance; IT Support,Academics; IT Support
+हॉस्टल में पानी की समस्या है और रखरखाव की शिकायत भी हल नहीं हुई है।,Hostels; Maintenance,Academics
+कॉलेज बस बहुत भरी रहती है और ड्राइवर से छात्रों की बहस हो रही है।,Security / Discipline; Transport,Security / Discipline; Transport
+विश्वविद्यालय की ईमेल सेवा नहीं खुल रही और मुझे असाइनमेंट जमा करना है।,Academics; IT Support,Academics; IT Support
