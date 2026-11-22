@@ -1,185 +1,206 @@
-
 const complaintForm = document.getElementById("complaintForm");
 const complaintInput = document.getElementById("complaint");
-const result = document.getElementById("result");
 const submitBtn = document.getElementById("submitBtn");
+const resultDiv = document.getElementById("result");
 
 const testComplaints = document.getElementById("testComplaints");
 const useTestBtn = document.getElementById("useTestBtn");
+const charCount = document.getElementById("charCount");
 
+// Update character count
+complaintInput.addEventListener("input", () => {
+    charCount.textContent = `${complaintInput.value.length} / 1500`;
+});
 
-// Use selected testing complaint
-useTestBtn.addEventListener("click", function () {
+// Fill complaint box from a sample complaint
+document.querySelectorAll(".sample-chip").forEach((button) => {
+    button.addEventListener("click", () => {
+        complaintInput.value = button.dataset.complaint;
+        charCount.textContent = `${complaintInput.value.length} / 1500`;
 
-    const start = testComplaints.selectionStart;
-    const end = testComplaints.selectionEnd;
+        complaintInput.focus();
+        complaintInput.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    });
+});
 
-    let selectedComplaint = testComplaints.value
-        .substring(start, end)
-        .trim();
+// Use manually entered test complaint
+useTestBtn.addEventListener("click", () => {
+    const sample = testComplaints.value.trim();
 
-    // If no text is selected, use all the text
-    if (!selectedComplaint) {
-        selectedComplaint = testComplaints.value.trim();
-    }
-
-    if (!selectedComplaint) {
-        alert("Please enter a testing complaint first.");
+    if (!sample) {
+        testComplaints.focus();
         return;
     }
 
-    complaintInput.value = selectedComplaint;
+    complaintInput.value = sample;
+    charCount.textContent = `${complaintInput.value.length} / 1500`;
+
+    complaintInput.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
 
     complaintInput.focus();
-
 });
 
-
-// Submit complaint
-complaintForm.addEventListener("submit", async function (event) {
-
+// Submit complaint to Flask backend
+complaintForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const complaint = complaintInput.value.trim();
 
     if (!complaint) {
-        showError("Please enter your complaint.");
+        complaintInput.focus();
         return;
     }
 
-    result.hidden = false;
-    result.replaceChildren();
-
-    const loading = document.createElement("p");
-    loading.textContent = "Processing your complaint...";
-    result.appendChild(loading);
-
     submitBtn.disabled = true;
-    submitBtn.textContent = "Please Wait...";
+    submitBtn.innerHTML = "<span>Analysing complaint...</span>";
+    resultDiv.hidden = false;
+    resultDiv.innerHTML = `<p class="result-empty">Please wait while IssueRoute analyses your complaint...</p>`;
 
     try {
-
         const response = await fetch("/predict", {
-
             method: "POST",
-
             headers: {
                 "Content-Type": "application/json"
             },
-
-            body: JSON.stringify({
-                complaint: complaint
-            })
-
+            body: JSON.stringify({ complaint: complaint })
         });
 
         const data = await response.json();
 
         if (!response.ok) {
-            showError(data.error || "Something went wrong.");
-            return;
+            throw new Error(data.error || "Something went wrong.");
         }
 
         displayResult(data);
 
-    }
-
-    catch (error) {
-
-        showError("Unable to connect to the server. Please try again.");
-
-    }
-
-    finally {
-
+    } catch (error) {
+        resultDiv.innerHTML = `
+            <div class="status-box status-error">
+                <strong>Unable to analyse complaint</strong>
+                <p>${escapeHTML(error.message)}</p>
+            </div>
+        `;
+    } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = "Submit Complaint";
-
+        submitBtn.innerHTML = `<span>Analyse complaint</span><span class="button-arrow">→</span>`;
     }
-
 });
 
-
-// Display prediction result
 function displayResult(data) {
+    const complaintType = data.complaint_type || "Not available";
+    const departments = Array.isArray(data.departments)
+        ? data.departments
+        : [];
 
-    result.hidden = false;
-    result.replaceChildren();
+    const status = data.status || "Not available";
 
-    const heading = document.createElement("h3");
-    heading.textContent = "Complaint Result";
+    let statusClass = "status-review";
 
-    result.appendChild(heading);
-
-    addResultRow(
-        "Complaint Type",
-        data.complaint_type || "Not available"
-    );
-
-    addResultRow(
-        "Department(s)",
-        Array.isArray(data.departments) && data.departments.length
-            ? data.departments.join(", ")
-            : "Not assigned"
-    );
-
-    addResultRow(
-        "Status",
-        data.status || "Not available"
-    );
-
-    if (data.margin !== undefined) {
-        addResultRow("Confidence Margin", data.margin);
+    if (status === "Auto Routed") {
+        statusClass = "status-auto";
+    } else if (status === "Multiple Departments Detected") {
+        statusClass = "status-multiple";
     }
+
+    let departmentHTML = "";
+
+    if (departments.length > 0) {
+        departmentHTML = departments.map((department) => `
+            <span class="department-tag">${escapeHTML(department)}</span>
+        `).join("");
+    } else {
+        departmentHTML = `<span class="result-empty">No department assigned</span>`;
+    }
+
+    let marginHTML = "";
+
+    if (data.margin !== undefined && data.margin !== null) {
+        marginHTML = `
+            <div class="result-item">
+                <span class="result-label">Confidence margin</span>
+                <span class="result-value">${escapeHTML(data.margin)}</span>
+            </div>
+        `;
+    }
+
+    let messageHTML = "";
 
     if (data.message) {
-
-        const message = document.createElement("p");
-        message.className = "result-message";
-        message.textContent = data.message;
-
-        result.appendChild(message);
-
+        messageHTML = `
+            <p>${escapeHTML(data.message)}</p>
+        `;
+    } else if (status === "Auto Routed") {
+        messageHTML = `
+            <p>The complaint has been assigned to the predicted department.</p>
+        `;
+    } else if (status === "Multiple Departments Detected") {
+        messageHTML = `
+            <p>More than one relevant department was identified.</p>
+        `;
+    } else {
+        messageHTML = `
+            <p>The complaint requires manual verification.</p>
+        `;
     }
 
-    const status = document.createElement("span");
-    status.className = "result-status";
-    status.textContent = data.status || "Result generated";
+    resultDiv.innerHTML = `
+        <h3 class="result-title">Analysis result</h3>
 
-    result.appendChild(status);
+        <div class="result-grid">
+            <div class="result-item">
+                <span class="result-label">Complaint type</span>
+                <span class="result-value">${escapeHTML(complaintType)}</span>
+            </div>
 
+            <div class="result-item">
+                <span class="result-label">Routing status</span>
+                <span class="result-value">${escapeHTML(status)}</span>
+            </div>
+
+            ${marginHTML}
+        </div>
+
+        <div class="department-block">
+            <span class="result-label">Identified department(s)</span>
+            <div class="department-list">
+                ${departmentHTML}
+            </div>
+        </div>
+
+        <div class="status-box ${statusClass}">
+            <strong>${escapeHTML(status)}</strong>
+            ${messageHTML}
+        </div>
+
+        <div class="complaint-preview">
+            <strong>Submitted complaint</strong>
+            ${escapeHTML(data.complaint || "")}
+        </div>
+    `;
+
+    resultDiv.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+    });
 }
 
+// Safely display text returned by the backend
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, (character) => {
+        const entities = {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        };
 
-// Add result row
-function addResultRow(label, value) {
-
-    const row = document.createElement("p");
-
-    const strong = document.createElement("strong");
-    strong.textContent = label + ": ";
-
-    const text = document.createElement("span");
-    text.textContent = value;
-
-    row.appendChild(strong);
-    row.appendChild(text);
-
-    result.appendChild(row);
-
-}
-
-
-// Display error
-function showError(message) {
-
-    result.hidden = false;
-    result.replaceChildren();
-
-    const error = document.createElement("p");
-    error.className = "error-message";
-    error.textContent = message;
-
-    result.appendChild(error);
-
+        return entities[character];
+    });
 }

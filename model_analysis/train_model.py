@@ -27,7 +27,7 @@ MODEL_DIR = BASE_DIR / "models"
 MODEL_DIR.mkdir(exist_ok=True)
 
 BASELINE_PATH = DATASET_DIR / "baseline_dataset.csv"
-RESEARCH_PATH = DATASET_DIR / "research_dataset.csv"
+RESEARCH_PATH = DATASET_DIR / "research_dataset_clean.csv"
 MODEL_PATH = MODEL_DIR / "issue_route_model.pkl"
 
 
@@ -189,6 +189,7 @@ print("7. RESEARCH DATASET")
 print("=" * 60)
 
 research_df = pd.read_csv(RESEARCH_PATH)
+research_df = research_df.drop_duplicates()
 print("Research dataset columns:", research_df.columns.tolist())
 required_columns = [
     "text",

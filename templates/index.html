@@ -5,7 +5,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>IssueRoute</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -17,56 +16,89 @@
 
         <header class="page-header">
             <h1>IssueRoute</h1>
-            <p>Student Complaint Classification System</p>
+            <p>Student Complaint Classification & Routing System</p>
         </header>
 
-        <section class="complaint-card">
-
+        <section class="intro">
             <h2>Submit Your Complaint</h2>
+            <p>
+                Describe your issue below. IssueRoute will analyse your complaint
+                and identify the appropriate department.
+            </p>
+        </section>
+
+        <section class="complaint-section">
 
             <form id="complaintForm">
+
+                <label for="complaint">Complaint Description</label>
 
                 <textarea
                     id="complaint"
                     name="complaint"
-                    placeholder="Describe your complaint here..."
-                    rows="5"
+                    rows="6"
+                    maxlength="1000"
+                    placeholder="Enter your complaint here..."
                     required
                 ></textarea>
 
-                <button type="submit" id="submitBtn">
-                    Submit Complaint
-                </button>
+                <div class="input-footer">
+                    <span id="charCount">0 / 1000</span>
+
+                    <button type="submit" id="submitBtn">
+                        Analyse Complaint
+                    </button>
+                </div>
 
             </form>
 
-            <div id="result" class="result" aria-live="polite" hidden>
+            <div id="result" class="result" aria-live="polite" hidden></div>
+
+        </section>
+
+        <section class="samples-section">
+
+            <h3>Try Sample Complaints</h3>
+            <p>Select a sample to test the system.</p>
+
+            <div class="sample-list">
+
+                <button type="button" class="sample-chip"
+                    data-complaint="My fee payment was successful, but the student portal still shows unpaid.">
+                    Fee Payment Issue
+                </button>
+
+                <button type="button" class="sample-chip"
+                    data-complaint="The hostel bathroom has water leakage and the washroom needs repair.">
+                    Hostel Maintenance
+                </button>
+
+                <button type="button" class="sample-chip"
+                    data-complaint="I want to organise a photography club event in the college.">
+                    Club Event Request
+                </button>
+
+            </div>
+
+            <div class="test-area">
+                <label for="testComplaints">Or enter your own test complaint</label>
+
+                <textarea
+                    id="testComplaints"
+                    rows="3"
+                    placeholder="Paste a complaint here..."
+                ></textarea>
+
+                <button type="button" id="useTestBtn" class="secondary-btn">
+                    Use This Complaint
+                </button>
             </div>
 
         </section>
 
-        <section class="testing-section">
-
-            <h3>Testing Complaints</h3>
-
-            <p>
-                Write or paste sample complaints here. Select a complaint
-                and click the button to use it above.
-            </p>
-
-            <textarea
-                id="testComplaints"
-                rows="4"
-                placeholder="Example: My fee payment was successful, but the portal still shows unpaid.
-
-Example: The classroom projector is not working."
-            ></textarea>
-
-            <button type="button" id="useTestBtn" class="secondary-btn">
-                Use Selected Complaint
-            </button>
-
-        </section>
+        <footer>
+            IssueRoute | Academic Project
+        </footer>
 
     </main>
 

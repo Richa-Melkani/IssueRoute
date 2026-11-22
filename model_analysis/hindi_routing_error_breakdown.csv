@@ -1,0 +1,26 @@
+text,primary_department,secondary_department,complaint_type,language,predicted_department,correct,secondary_department_dataset,complaint_type_dataset,valid_secondary_prediction
+मेरे परीक्षा अंक दिखाई नहीं दे रहे हैं और पोर्टल में भी समस्या है।,Academics,IT Support,multi,Hindi,Hostels,False,IT Support,multi,False
+हॉस्टल के बाथरूम में पानी की लीकेज है और कमरे का आवंटन भी गलत है।,Maintenance,Hostels,multi,Hindi,Hostels,False,Hostels,multi,True
+छात्रों के लिए एक्सचेंज प्रोग्राम की जानकारी कहाँ मिलेगी?,Unknown,,unknown,Hindi,Academics,False,,unknown,False
+छात्र नेतृत्व कार्यक्रम के लिए आवेदन कैसे करें?,Unknown,,unknown,Hindi,Administration,False,,unknown,False
+स्टूडेंट पोर्टल में लॉगिन करने में समस्या हो रही है।,IT Support,,single,Hindi,Hostels,False,,single,False
+असाइनमेंट का परिणाम अभी तक अपलोड नहीं किया गया है।,Academics,,single,Hindi,Fees / Finance,False,,single,False
+मुझे अपने पाठ्यक्रम के बारे में जानकारी चाहिए।,Academics,,single,Hindi,Fees / Finance,False,,single,False
+मुझे अपनी फीस वापसी की जानकारी चाहिए।,Fees / Finance,,single,Hindi,Academics,False,,single,False
+मेरी सेमेस्टर फीस जमा नहीं हो रही है और पाठ्यक्रम पंजीकरण भी बंद है।,Fees / Finance,Academics,multi,Hindi,Maintenance,False,Academics,multi,False
+स्टूडेंट पोर्टल में लॉगिन नहीं हो रहा और परीक्षा की समय सारणी भी नहीं दिख रही।,IT Support,Academics,multi,Hindi,Academics,False,Academics,multi,True
+हॉस्टल की गलियारे की लाइट खराब है और रात में सुरक्षा भी नहीं है।,Maintenance,Security / Discipline,multi,Hindi,Hostels,False,Security / Discipline,multi,False
+बस का मार्ग बदल गया है और मेरे छात्र रिकॉर्ड में भी बदलाव करना है।,Transport,Administration,multi,Hindi,Administration,False,Administration,multi,True
+कैंपस का वाई-फाई बंद है और कंप्यूटर लैब का उपकरण भी खराब है।,IT Support,Maintenance,multi,Hindi,Maintenance,False,Maintenance,multi,True
+हॉस्टल के कमरे का ताला खराब है और रात में सुरक्षा को लेकर समस्या है।,Hostels,Security / Discipline,multi,Hindi,Maintenance,False,Security / Discipline,multi,False
+मेरे विश्वविद्यालय रिकॉर्ड में मेरा नाम गलत है।,Administration,,single,Hindi,IT Support,False,,single,False
+मुझे छात्र पहचान पत्र के लिए आवेदन करना है।,Administration,,single,Hindi,Unknown,False,,single,False
+कैंपस में छात्रों के बीच झगड़ा हुआ है।,Security / Discipline,,single,Hindi,IT Support,False,,single,False
+कॉलेज की पार्किंग से मेरी साइकिल चोरी हो गई है।,Security / Discipline,,single,Hindi,Maintenance,False,,single,False
+प्रयोगशाला में पानी का नल लगातार लीक हो रहा है।,Maintenance,,single,Hindi,IT Support,False,,single,False
+कैंपस का पानी का कूलर खराब है।,Maintenance,,single,Hindi,Hostels,False,,single,False
+सीढ़ियों की रेलिंग ढीली हो गई है।,Maintenance,,single,Hindi,Security / Discipline,False,,single,False
+मुझे अपने व्यक्तिगत विवरण में बदलाव करना है।,Administration,,single,Hindi,Fees / Finance,False,,single,False
+मैं अपना आपातकालीन संपर्क नंबर अपडेट करना चाहता हूँ।,Administration,,single,Hindi,Fees / Finance,False,,single,False
+कैंपस के प्रतिबंधित क्षेत्र में कोई व्यक्ति बिना अनुमति के प्रवेश कर रहा था।,Security / Discipline,,single,Hindi,Unknown,False,,single,False
+एक छात्र दूसरे छात्र को परेशान कर रहा है।,Security / Discipline,,single,Hindi,Transport,False,,single,False
